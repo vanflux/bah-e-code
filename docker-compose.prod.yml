@@ -16,7 +16,7 @@ services:
 
   api:
     container_name: bc-api
-    build: ./apps/backend
+    image: vanflux/bc-api
     restart: always
     environment:
       - NODE_ENV=production
