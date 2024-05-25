@@ -8,6 +8,7 @@ import { AuthMiddleware } from './auth/auth.middleware';
 import { DynamicModule, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
+import { SosRsModule } from './sos-rs/sos-rs.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     isDevelopment && DevModule,
     DocsModule,
     StatusModule,
+    SosRsModule,
   ].filter(Boolean) as DynamicModule[],
   controllers: [],
   providers: [],

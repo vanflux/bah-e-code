@@ -3,6 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { Sequelize } from 'sequelize-typescript';
 import { Constants } from 'src/constants';
 import { User } from './models/user.model';
+import { ShelterSupply } from './models/shelter-supply.model';
+import { Shelter } from './models/shelter.model';
+import { Supply } from './models/supply.model';
+import { SupplyCategory } from './models/supply-category.model';
 
 export const databaseProviders: Provider[] = [
   {
@@ -37,7 +41,7 @@ export const databaseProviders: Provider[] = [
         logging: false,
         benchmark: true,
       });
-      sequelize.addModels([User]);
+      sequelize.addModels([User, SupplyCategory, Supply, Shelter, ShelterSupply]);
       return sequelize;
     },
     inject: [ConfigService],
@@ -45,5 +49,21 @@ export const databaseProviders: Provider[] = [
   {
     provide: Constants.USERS_REPOSITORY,
     useValue: User,
+  },
+  {
+    provide: Constants.SUPPLY_CATEGORIES_REPOSITORY,
+    useValue: SupplyCategory,
+  },
+  {
+    provide: Constants.SUPPLIES_REPOSITORY,
+    useValue: Supply,
+  },
+  {
+    provide: Constants.SHELTERS_REPOSITORY,
+    useValue: Shelter,
+  },
+  {
+    provide: Constants.SHELTERS_SUPPLIES_REPOSITORY,
+    useValue: ShelterSupply,
   },
 ];

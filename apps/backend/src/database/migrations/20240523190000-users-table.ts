@@ -20,6 +20,6 @@ export const down = async (queryInterface: QueryInterface, sequelize: typeof Seq
   console.log('Down');
 
   await queryInterface.sequelize.query(`
-    DROP TABLE IF EXISTS public.users 
+    DROP TABLE IF EXISTS public.users;
   `);
 };
