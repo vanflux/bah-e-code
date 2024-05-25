@@ -9,6 +9,7 @@ import { DynamicModule, MiddlewareConsumer, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SosRsModule } from './sos-rs/sos-rs.module';
+import { AlertsModule } from './alerts/alerts.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { SosRsModule } from './sos-rs/sos-rs.module';
     AuthModule,
     DatabaseModule,
     isDevelopment && DevModule,
+    AlertsModule,
     DocsModule,
     StatusModule,
     SosRsModule,
