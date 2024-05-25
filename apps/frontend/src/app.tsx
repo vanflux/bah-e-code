@@ -7,6 +7,7 @@ import { PushNotifications } from '@capacitor/push-notifications';
 import { Clipboard } from '@capacitor/clipboard';
 import { useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
+import { Header } from './components/layouts/components/header';
 
 export function App() {
   useEffect(() => {

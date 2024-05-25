@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { Footer } from '../footer';
 import { Header } from '../header';
+import Navbar from '../../../NavBar';
 
 interface Props {
   children?: ReactNode;
@@ -14,8 +15,8 @@ export function Layout({ children }: Props) {
       <Header />
       <div className="flex w-full flex-1 flex-col items-center overflow-auto">
         <div className="flex w-full flex-1 flex-col">{children ?? <Outlet />}</div>
-        <Footer />
       </div>
+      <Navbar />
     </div>
   );
 }

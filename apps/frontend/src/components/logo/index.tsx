@@ -3,5 +3,5 @@ interface Props {
 }
 
 export function Logo({ className }: Props) {
-  return <div className={className}>Example</div>;
+  return <div className={className}>TechRS</div>;
 }
