@@ -13,6 +13,10 @@ export function Router() {
         children: [{ path: routes.HOME(), element: <HomePage /> }],
       },
       {
+        element: <Layout />,
+        children: [{ path: routes.SHELTERS(), element: <HomePage /> }],
+      },
+      {
         path: '*',
         element: <NotFoundPage />,
       },
