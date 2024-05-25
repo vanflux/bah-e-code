@@ -48,7 +48,7 @@ jobs:
 
           mv docker-compose.prod.yml docker-compose.yml
 
-          scp -i key.pem -o "StrictHostKeyChecking no" docker-compose.yml .env .postgres-db-env ${{ vars.PROD_SSH_USER }}@${{ vars.PROD_SSH_HOST }}:/home/${{ vars.PROD_SSH_USER }}/services/bc-api
+          scp -i key.pem -o "StrictHostKeyChecking no" docker-compose.yml .env .postgres-db-env ${{ vars.PROD_SSH_USER }}@${{ vars.PROD_SSH_HOST }}:/${{ vars.PROD_SSH_USER }}/services/bc-api
 
       - name: Deploy
         run: |
