@@ -1,0 +1,32 @@
+{
+  "name": "techrs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:api": "npm start -w @techrs/backend",
+    "start:android": "npm run start:android -w @techrs/frontend",
+    "start:web": "npm run start:web -w @techrs/frontend",
+    "migration:generate": "npx sequelize-cli migration:generate",
+    "migrate": "npm run migrate -w @techrs/backend",
+    "migrate:undo": "npm run migrate:undo -w @techrs/backend",
+    "migrate:undo:all": "npm run migrate:undo:all -w @techrs/backend",
+    "format": "npx prettier --write \"**/*.ts\" \"**/*.tsx\" \"**/*.css\"",
+    "prepare": "npx husky"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.1.0",
+    "prettier": "^3.0.3"
+  },
+  "lint-staged": {
+    "*.css": "prettier --write",
+    "*.ts": "prettier --write",
+    "*.tsx": "prettier --write"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "61998468259",
+    "project_id": "techrs-team",
+    "storage_bucket": "techrs-team.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61998468259:android:65dc59f59af906e6ab8316",
+        "android_client_info": {
+          "package_name": "com.techrs.www"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYsv8l043W7mF3VS77Q0kstALoGN1SCN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

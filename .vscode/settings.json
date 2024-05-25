@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["{([\\s\\S]*)}", ":\\s*['\"`]([^'\"`]*)['\"`]"]
+  ],
+  "java.project.sourcePaths": [
+    ""
+  ]
+}
