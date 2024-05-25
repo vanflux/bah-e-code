@@ -27,3 +27,35 @@ jobs:
         with:
           push: true
           tags: ${{ steps.image-tags.outputs.specific }},${{ steps.image-tags.outputs.latest }}
+
+      - name: Pull
+        run: |
+          echo "${{ secrets.PROD_SSH_KEY }}" | tr -d '\r' > key.pem
+          chmod 400 key.pem
+          ssh -i key.pem -o "StrictHostKeyChecking no" -p ${{ vars.PROD_SSH_PORT }} ${{ vars.PROD_SSH_USER }}@${{ vars.PROD_SSH_HOST }} <<'ENDSSH'
+            docker pull vanflux/bc-api
+            mkdir -p ~/services/bc-api
+          ENDSSH
+
+      - name: Copy files
+        run: |
+          echo "DB_POSTGRES_USERNAME=${{ vars.PROD_DB_POSTGRES_USERNAME }}" >> .env
+          echo "DB_POSTGRES_PASSWORD=${{ secrets.PROD_DB_POSTGRES_PASSWORD }}" >> .env
+          echo "AUTH_JWT_SECRET=${{ secrets.PROD_AUTH_JWT_SECRET }}" >> .env
+
+          echo "POSTGRES_USER=${{ vars.PROD_DB_POSTGRES_USERNAME }}" >> .postgres-db-env
+          echo "POSTGRES_PASSWORD=${{ secrets.PROD_DB_POSTGRES_PASSWORD }}" >> .postgres-db-env
+
+          mv docker-compose.prod.yml docker-compose.yml
+
+          scp -i key.pem -o "StrictHostKeyChecking no" docker-compose.yml .env .postgres-db-env ${{ vars.PROD_SSH_USER }}@${{ vars.PROD_SSH_HOST }}:/home/${{ vars.PROD_SSH_USER }}/services/bc-api
+
+      - name: Deploy
+        run: |
+          ssh -i key.pem -o "StrictHostKeyChecking no" -p ${{ vars.PROD_SSH_PORT }} ${{ vars.PROD_SSH_USER }}@${{ vars.PROD_SSH_HOST }} <<'ENDSSH'
+            cd ~/services/bc-api
+            docker network create infra-net || true
+            docker-compose up -d postgres
+            docker run --rm --entrypoint /bin/ash --network infra-net --env-file .env -e NODE_ENV=production vanflux/bc-api -c "npm run migrate" || true
+            docker-compose up -d
+          ENDSSH
