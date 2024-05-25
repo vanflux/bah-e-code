@@ -1,2 +1,2 @@
 # bah-e-code
-Bah&amp;Code
+Bah&Code

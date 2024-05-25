@@ -15,6 +15,7 @@ services:
       - 5432:5432
 
   api:
+    container_name: bc-api
     build: ./apps/backend
     restart: always
     environment:
