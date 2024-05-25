@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:16.1-alpine
+    restart: always
+    container_name: postgres
+    env_file:
+      - ./.postgres-db-env
+    environment:
+      - POSTGRES_DB=techrs
+    volumes:
+      - ./.docker/postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  api:
+    build: ./apps/backend
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - DB_POSTGRES_DATABASE=techrs
+      - DB_POSTGRES_HOST=postgres
+      - DB_POSTGRES_PORT=5432
+    env_file:
+      - ./.env
+
+networks:
+  default:
+    name: global
+    external: true
