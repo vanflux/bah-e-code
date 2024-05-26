@@ -12,7 +12,7 @@ interface WarnCardProps {
 export const WarnCard = ({ date, id, title }: WarnCardProps) => {
   const navigate = useNavigate();
   return (
-    <div className="flex flex-col shadow-system rounded-xl p-2 gap-2" onClick={() => navigate(routes.WARN(id))}>
+    <div className="flex flex-col shadow-system rounded-xl p-2 gap-2 cursor-pointer" onClick={() => navigate(routes.WARN(id))}>
       <Typography semibold size="h4">
         {title}
       </Typography>

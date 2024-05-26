@@ -19,7 +19,7 @@ export const WarnList = () => {
                 Alertas
               </Typography>
               <div className="flex justify-center">
-                <Icon type="alert" className="fill-red-500" size={10} />
+                <Icon type="alert" className="text-red-500" size={10} />
               </div>
             </div>
             {warns.map((item) => (

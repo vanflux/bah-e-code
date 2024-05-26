@@ -36,7 +36,7 @@ export function Modal({ open, className, overlayClassName: inOverlayClassName, h
           {!hideClose && (
             <Dialog.Close asChild>
               <IconButton className="absolute top-[10px] right-[10px]">
-                <Icon type="close" size={6} className="fill-gray-600" />
+                <Icon type="close" size={6} className="text-gray-600" />
               </IconButton>
             </Dialog.Close>
           )}
