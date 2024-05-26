@@ -12,6 +12,11 @@ export function HomePage() {
     <AddressRequired>
       <AuthRequired>
         <div className="flex flex-col gap-5">
+          <div>
+            <Typography size="h1" className="font-bold">
+              Bem-vindo
+            </Typography>
+          </div>
           <div className="flex flex-col px-3 py-1 overflow-hidden">
             <WarnCarousel />
           </div>
