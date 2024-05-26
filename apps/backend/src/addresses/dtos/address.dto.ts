@@ -27,6 +27,12 @@ export class AddressDto {
   zipCode?: string;
 
   @ApiProperty()
+  latitude?: number;
+
+  @ApiProperty()
+  longitude?: number;
+
+  @ApiProperty()
   alertsEnabled!: boolean;
 
   @ApiProperty()
@@ -51,6 +57,8 @@ export class AddressDto {
       street: address.street ?? undefined,
       streetNumber: address.streetNumber ?? undefined,
       zipCode: address.zipCode ?? undefined,
+      latitude: address.latitude ? Number(address.latitude) : undefined,
+      longitude: address.longitude ? Number(address.longitude) : undefined,
       alertsEnabled: address.alertsEnabled,
       donationsEnabled: address.donationsEnabled,
       volunteersEnabled: address.volunteersEnabled,

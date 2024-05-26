@@ -1,33 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { ShelterCard } from './components/shelter-card';
 import { SearchInput } from '../../components/search-input';
-import { ShelterDto, useShelters } from '../../features/shelters';
+import { useShelters } from '../../features/shelters';
 import { Loading } from '../../components/loading';
 import { LMap, Point } from '../../components/map';
-import { LatLngTuple, Map } from 'leaflet';
-import { useWatchPosition } from '../../hooks/use-watch-position';
-
-function mapPoints(shelters: ShelterDto[] | undefined) {
-  if (!shelters) {
-    return [];
-  }
-
-  return shelters
-    .filter(({ latitude, longitude }) => latitude && longitude)
-    .map(
-      (shelter): Point => ({
-        position: [shelter.latitude!, shelter.longitude!],
-        label: shelter.name,
-        id: shelter.shelterId,
-      }),
-    );
-}
+import { Map } from 'leaflet';
+import { useCurrentLocation } from '../../features/current-location';
+import LocationSelectInput from '../../components/location-select-input';
 
 export function ShelterListPage() {
   const [search, setSearch] = useState('');
-  const { data: shelterPages, isLoading } = useShelters({
-    search,
-  });
+  const { latitude, longitude } = useCurrentLocation();
+  const { data: shelterPages, isLoading } = useShelters(
+    {
+      latitude: latitude!,
+      longitude: longitude!,
+      search,
+    },
+    !!latitude && !!longitude,
+  );
   const anchorRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<Map>(null);
 
@@ -51,12 +42,26 @@ export function ShelterListPage() {
     mapRef.current.setView([shelter.latitude, shelter.longitude], 16);
   }
 
+  const points = useMemo(() => {
+    if (!shelters) return [];
+    return shelters
+      .filter(({ latitude, longitude }) => latitude && longitude)
+      .map(
+        (shelter): Point => ({
+          position: [shelter.latitude!, shelter.longitude!],
+          label: shelter.name,
+          id: shelter.shelterId,
+        }),
+      );
+  }, []);
+
   return (
     <div>
       <div ref={anchorRef} />
-      <LMap className="h-72" points={mapPoints(shelters)} ref={mapRef} />
+      <LMap className="h-60" points={points} ref={mapRef} />
 
       <div className="flex flex-col flex-1 p-4 gap-4">
+        <LocationSelectInput />
         <SearchInput value={search} onChange={setSearch} />
 
         {isLoading ? (

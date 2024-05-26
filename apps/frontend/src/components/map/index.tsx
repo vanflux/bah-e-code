@@ -1,9 +1,9 @@
 import L, { LatLngTuple, Map } from 'leaflet';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import { useWatchPosition } from '../../hooks/use-watch-position';
-import React, { RefObject, useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import React, { RefObject } from 'react';
 import { cn } from '../../utils/cn';
-import { Icon } from '../icons';
+import { useCurrentLocation } from '../../features/current-location';
+import CenterLocationButton from './components/center-button';
 
 export interface Point {
   position: LatLngTuple;
@@ -19,28 +19,6 @@ const userLocationIcon = new L.Icon({
   iconUrl: '/assets/svg/user.svg',
 });
 
-interface CenterUserLocationProps {
-  position: LatLngTuple | undefined;
-}
-
-function CenterUserLocationButton({ position }: CenterUserLocationProps) {
-  const map = useMap();
-
-  function center() {
-    if (position) {
-      map.setView(position, 16);
-    }
-  }
-
-  return (
-    <div className="z-[500] flex justify-end p-2">
-      <button type="button" className="shadow-system rounded-full p-2 bg-primary-50 hover:bg-primary-200 active:bg-primary-100">
-        <Icon type="centerLocation" className="w-7 h-7 fill-gray-600" onClick={center} />
-      </button>
-    </div>
-  );
-}
-
 interface MapProps {
   className?: string;
   points?: Point[];
@@ -48,22 +26,9 @@ interface MapProps {
 }
 
 export const LMap = React.forwardRef<Map, MapProps>(({ className, points }, ref) => {
-  const userCoordinates = useWatchPosition();
-  const [userPosition, setUserPosition] = useState<LatLngTuple>();
-
   const center: LatLngTuple = [-30.069619, -51.166494];
-
-  useEffect(() => {
-    userCoordinates.startWatch({ enableHighAccuracy: true });
-
-    return () => userCoordinates.clearWatch();
-  }, []);
-
-  useEffect(() => {
-    if (userCoordinates.currentPosition?.coords) {
-      setUserPosition(() => [userCoordinates.currentPosition!.coords.latitude, userCoordinates.currentPosition!.coords.longitude]);
-    }
-  }, [userCoordinates.currentPosition]);
+  const { latitude, longitude } = useCurrentLocation();
+  const userPosition: LatLngTuple | undefined = latitude && longitude ? [latitude, longitude] : undefined;
 
   function renderPoints() {
     if (!points?.length) {
@@ -92,7 +57,7 @@ export const LMap = React.forwardRef<Map, MapProps>(({ className, points }, ref)
           </Marker>
         )}
         {renderPoints()}
-        <CenterUserLocationButton position={userPosition} />
+        <CenterLocationButton />
       </MapContainer>
     </div>
   );

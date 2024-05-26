@@ -7,6 +7,8 @@ export interface AddressDto {
   city: string;
   streetNumber: string;
   zipCode: string;
+  latitude?: number;
+  longitude?: number;
   alertsEnabled: boolean;
   donationsEnabled: boolean;
   volunteersEnabled: boolean;

@@ -27,6 +27,12 @@ export class Address extends Model<InferAttributes<Address>, Partial<InferAttrib
   @Column({ type: DataType.CHAR(11), allowNull: true })
   zipCode?: string;
 
+  @Column({ type: DataType.DECIMAL(8, 6), allowNull: true })
+  latitude?: string | null;
+
+  @Column({ type: DataType.DECIMAL(9, 6), allowNull: true })
+  longitude?: string | null;
+
   @Column({ type: DataType.BOOLEAN, allowNull: false })
   alertsEnabled!: boolean;
 
