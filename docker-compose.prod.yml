@@ -28,5 +28,5 @@ services:
 
 networks:
   default:
-    name: global
+    name: infra-net
     external: true
