@@ -1,7 +1,6 @@
 import { InferAttributes, Sequelize } from 'sequelize';
-import { BelongsTo, BelongsToMany, Column, CreatedAt, DataType, ForeignKey, Model, Table, UpdatedAt } from 'sequelize-typescript';
+import { BelongsTo, Column, CreatedAt, DataType, ForeignKey, HasMany, Model, Table, UpdatedAt } from 'sequelize-typescript';
 import { SupplyCategory } from './supply-category.model';
-import { Shelter } from './shelter.model';
 import { ShelterSupply } from './shelter-supply.model';
 
 @Table({ tableName: 'supplies' })
@@ -30,6 +29,6 @@ export class Supply extends Model<InferAttributes<Supply>, Partial<InferAttribut
   @BelongsTo(() => SupplyCategory)
   supplyCategory?: SupplyCategory;
 
-  @BelongsToMany(() => Shelter, () => ShelterSupply)
-  shelterSupplies?: Array<Shelter & { ShelterSupply: ShelterSupply }>;
+  @HasMany(() => ShelterSupply)
+  shelterSupplies?: ShelterSupply[];
 }

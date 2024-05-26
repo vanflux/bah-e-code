@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Alert } from 'src/database/models/alert.model';
 import { Shelter } from 'src/database/models/shelter.model';
+import { ShelterSupplyDto } from './shelter-supply.dto';
 
 export class ShelterDto {
   @ApiProperty()
@@ -66,6 +66,9 @@ export class ShelterDto {
   @ApiProperty()
   updatedAt!: string;
 
+  @ApiProperty({ type: ShelterSupplyDto, isArray: true })
+  shelterSupplies?: ShelterSupplyDto[];
+
   static fromModel(shelter: Shelter): ShelterDto {
     return {
       shelterId: shelter.shelterId,
@@ -89,6 +92,7 @@ export class ShelterDto {
       category: shelter.category,
       createdAt: shelter.createdAt.toISOString(),
       updatedAt: shelter.updatedAt.toISOString(),
+      shelterSupplies: shelter.shelterSupplies ? shelter.shelterSupplies.map(ShelterSupplyDto.fromModel) : undefined,
     };
   }
 }

@@ -1,6 +1,5 @@
 import { InferAttributes, Sequelize } from 'sequelize';
-import { BelongsToMany, Column, CreatedAt, DataType, Model, Table, UpdatedAt } from 'sequelize-typescript';
-import { Supply } from './supply.model';
+import { Column, CreatedAt, DataType, HasMany, Model, Table, UpdatedAt } from 'sequelize-typescript';
 import { ShelterSupply } from './shelter-supply.model';
 
 @Table({ tableName: 'shelters' })
@@ -73,6 +72,6 @@ export class Shelter extends Model<InferAttributes<Shelter>, Partial<InferAttrib
   @Column({ allowNull: false, defaultValue: Sequelize.fn('now') })
   updatedAt!: Date;
 
-  @BelongsToMany(() => Supply, () => ShelterSupply)
-  shelterSupplies?: Array<Supply & { ShelterSupply: ShelterSupply }>;
+  @HasMany(() => ShelterSupply)
+  shelterSupplies?: ShelterSupply[];
 }

@@ -127,7 +127,7 @@ export class SosRsService {
 
   private async syncShelters(supplies: Supply[]) {
     const ourShelters = await this.shelterRepo.findAll({
-      include: [{ model: Supply }],
+      include: [{ model: ShelterSupply }],
     });
     await this.iterateShelters(async (theirShelter) => {
       this.logger.log(`Sync shelter, sosrs id: ${theirShelter.id}`);
