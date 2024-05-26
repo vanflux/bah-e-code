@@ -11,6 +11,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { SosRsModule } from './sos-rs/sos-rs.module';
 import { AlertsModule } from './alerts/alerts.module';
 import { AddressesModule } from './addresses/addresses.module';
+import { SheltersModule } from './shelters/shelters.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AddressesModule } from './addresses/addresses.module';
     AlertsModule,
     DocsModule,
     StatusModule,
+    SheltersModule,
     SosRsModule,
   ].filter(Boolean) as DynamicModule[],
   controllers: [],
