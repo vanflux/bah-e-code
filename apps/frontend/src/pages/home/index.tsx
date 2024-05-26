@@ -1,56 +1,34 @@
 import { useNavigate } from 'react-router-dom';
-import { Carousel } from '../../components/carousel';
-import { Icon } from '../../components/icons';
-import { Loading } from '../../components/loading';
-import { useWarnList } from '../../features/example/hooks/use-warns';
 import { routes } from '../../router/routes';
 import { IconCard } from '../../components/icon-card';
+import { AddressRequired } from '../../features/addresses/components/address-required';
+import { AuthRequired } from '../../features/auth';
+import { Typography } from '../../components/Typography';
+import { WarnCarousel } from '../../features/warns';
 
 export function HomePage() {
-  const { data: warns, isLoading } = useWarnList();
   const navigate = useNavigate();
   return (
-    <>
-      {isLoading || !warns ? (
-        <Loading />
-      ) : (
-        <div className="p-1">
-          <div className="h-[10px]"></div>
-          <div className="flex justify-between">
-            <h1 className="font-bold">Últimos Alertas </h1>
-            <div className="h-[10px]"></div>
-            <span
-              onClick={() => {
-                navigate(routes.WARNS());
-              }}
-              className="flex gap-5 text-xs items-center"
-            >
-              {' '}
-              ver todos{``} <Icon className="mr-2" type="arrowRight" size={5} />
-            </span>
+    <AddressRequired>
+      <AuthRequired>
+        <div className="flex flex-col gap-5">
+          <div className="flex flex-col px-3 py-1 overflow-hidden">
+            <WarnCarousel />
           </div>
-
-          <Carousel content={warns} />
-          <div className="h-[30px]"></div>
-          <h2 className="font-bold">Menu</h2>
-          <div className="flex justify-center w-[100%]">
-            <div className="flex flex-wrap p-[10px] justify-evenly gap-5">
-              <IconCard iconSize={7} text="Abrigos" navigate={() => navigate(routes.SHELTERS())} iconColor="blue" iconType="shelter" />
+          <div className="flex flex-col px-3 gap-3">
+            <Typography size="h2" className="font-bold">
+              Menu
+            </Typography>
+            <div className="grid grid-cols-3 gap-3">
+              <IconCard text="Abrigos" navigate={() => navigate(routes.SHELTERS())} iconColor="blue" iconType="shelter" />
               <IconCard text="Alertas" navigate={() => navigate(routes.WARNS())} iconColor="red" iconType="alert" />
-              <IconCard
-                iconSize={7}
-                text="Notificações"
-                navigate={() => navigate(routes.NOTIFICATIONS())}
-                iconColor="blue"
-                iconType="bell"
-              />
-              <IconCard iconSize={9} text="Doações" navigate={() => navigate(routes.HOME())} iconColor="red" iconType="donation" />
+              <IconCard text="Notificações" navigate={() => navigate(routes.NOTIFICATIONS())} iconColor="blue" iconType="bell" />
+              <IconCard text="Doações" navigate={() => navigate(routes.HOME())} iconColor="red" iconType="donation" />
               <IconCard text="Voluntários" navigate={() => navigate(routes.HOME())} iconColor="red" iconType="volunteer" />
             </div>
           </div>
         </div>
-      )}
-      <div></div>
-    </>
+      </AuthRequired>
+    </AddressRequired>
   );
 }

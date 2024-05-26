@@ -1,18 +1,10 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useFullWarn } from '../../features/example';
-import { FullWarn } from '../../features/example/models';
 import { Loading } from '../../components/loading';
+import { useWarn } from '../../features/warns';
 
-interface Warn {
-  title: string;
-  text: string;
-  image: string;
-}
-
-const WarnPage: React.FC = () => {
+export const WarnPage = () => {
   const { warnId } = useParams();
-  const { data: warn, isLoading } = useFullWarn(warnId || '');
+  const { data: warn, isLoading } = useWarn(warnId || '');
 
   return (
     <div className="flex flex-col flex-1">
@@ -35,5 +27,3 @@ const WarnPage: React.FC = () => {
     </div>
   );
 };
-
-export default WarnPage;

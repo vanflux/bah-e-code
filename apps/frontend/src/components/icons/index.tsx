@@ -4,7 +4,6 @@ import { ArrowLeftIcon } from './types/arrow-left';
 import { CheckIcon } from './types/check';
 import { ChevronDownIcon } from './types/chevron-down';
 import { ChevronUpIcon } from './types/chevron-up';
-import { ArrowRightIcon } from './types/arrow-right';
 import { BellIcon } from './types/bell';
 import { CloseIcon } from './types/close';
 import { ContactIcon } from './types/contact';
@@ -16,6 +15,7 @@ import { DonationIcon } from './types/donation';
 import { HouseIcon } from './types/house';
 import { ShelterIcon } from './types/shelter';
 import { VolunteerIcon } from './types/volunteer';
+import { ChevronRightIcon } from './types/chevron-right';
 
 interface Props {
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20;
@@ -25,10 +25,10 @@ interface Props {
 }
 
 const types = {
-  arrowRight: ArrowRightIcon,
   arrowLeft: ArrowLeftIcon,
   check: CheckIcon,
   chevronDown: ChevronDownIcon,
+  chevronRight: ChevronRightIcon,
   chevronUp: ChevronUpIcon,
   close: CloseIcon,
   gps: GpsIcon,

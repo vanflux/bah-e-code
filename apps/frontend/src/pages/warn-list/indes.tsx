@@ -1,10 +1,10 @@
 import { Icon } from '../../components/icons';
 import { Loading } from '../../components/loading';
 import { WarnCard } from '../../components/warn-card';
-import { useWarnList } from '../../features/example';
+import { useWarns } from '../../features/warns';
 
 export const WarnList = () => {
-  const { data: warns, isLoading } = useWarnList();
+  const { data: warns, isLoading } = useWarns();
 
   return (
     <>
