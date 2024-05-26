@@ -3,31 +3,32 @@ import { Typography } from '../../../components/Typography/index';
 import { Button } from '../../../components/button';
 import { Icon } from '../../../components/icons';
 import { routes } from '../../../router/routes';
+import { ShelterDto } from '../../../features/shelters';
+import { Point } from '../../../components/map';
 
 export interface ShelterCardProps {
-  shelterId: string;
-  name: string;
-  pix?: string | null;
-  address: string;
-  street?: string | null;
-  streetNumber?: number | null;
-  neighbourhood?: string | null;
-  city?: string | null;
-  contact?: string | null;
-  zipCode?: string | null;
-  capacity?: number | null;
-  petFriendly: boolean | null;
-  shelteredPeople?: number | null;
-  prioritySum: number;
-  verified: boolean;
-  latitude?: string | null;
-  longitude?: string | null;
-  category: string;
-  createdAt: string;
-  updatedAt: string;
+  data: ShelterDto;
+  showMap?: (point: Point) => void;
 }
 
-export function ShelterCard({ shelterId, name, address, contact, petFriendly, capacity, shelteredPeople }: ShelterCardProps) {
+export function ShelterCard({ data, showMap }: ShelterCardProps) {
+  const { shelterId, name, address, contact, petFriendly, capacity, shelteredPeople, latitude, longitude } = data;
+
+  function emitPoint() {
+    if (!showMap) {
+      return;
+    }
+
+    if (!latitude || !longitude) {
+      return;
+    }
+
+    showMap({
+      position: [latitude, longitude],
+      label: name,
+    });
+  }
+
   return (
     <div className="flex flex-col gap-2 rounded-md shadow-system p-2">
       <div className="flex flex-col sm:flex-row sm:items-center">
@@ -72,7 +73,9 @@ export function ShelterCard({ shelterId, name, address, contact, petFriendly, ca
           <Button full>Ver detalhes</Button>
         </Link>
 
-        <Button className="flex-1">Ver no mapa</Button>
+        <Button className="flex-1" onClick={emitPoint}>
+          Ver no mapa
+        </Button>
       </div>
     </div>
   );
