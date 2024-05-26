@@ -4,6 +4,11 @@ import { CheckIcon } from './types/check';
 import { ChevronDownIcon } from './types/chevron-down';
 import { ChevronUpIcon } from './types/chevron-up';
 import { CloseIcon } from './types/close';
+import { ContactIcon } from './types/contact';
+import { DogFootIcon } from './types/dog-foot';
+import { GpsIcon } from './types/gps';
+import { PeopleIcon } from './types/people';
+import { SearchIcon } from './types/search';
 
 interface Props {
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20;
@@ -18,6 +23,11 @@ const types = {
   chevronDown: ChevronDownIcon,
   chevronUp: ChevronUpIcon,
   close: CloseIcon,
+  gps: GpsIcon,
+  dogFoot: DogFootIcon,
+  people: PeopleIcon,
+  contact: ContactIcon,
+  search: SearchIcon,
 } as const;
 
 export type IconType = keyof typeof types;
