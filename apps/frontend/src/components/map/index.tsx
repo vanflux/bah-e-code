@@ -2,8 +2,19 @@ import { LatLngTuple } from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useWatchPosition } from '../../hooks/use-watch-position';
 import { useEffect } from 'react';
+import { cn } from '../../utils/cn';
 
-export const Map = () => {
+export interface Point {
+  position: LatLngTuple;
+  label: string;
+}
+
+interface MapProps {
+  className?: string;
+  points?: Point[];
+}
+
+export const Map = ({ className, points }: MapProps) => {
   const userCoordinates = useWatchPosition();
 
   const center: LatLngTuple = [-30.069619, -51.166494];
@@ -16,8 +27,20 @@ export const Map = () => {
     return () => userCoordinates.clearWatch();
   }, []);
 
+  function renderPoints() {
+    if (!points?.length) {
+      return;
+    }
+
+    return points.map((point) => (
+      <Marker position={point.position} key={point.label}>
+        <Popup>{point.label}</Popup>
+      </Marker>
+    ));
+  }
+
   return (
-    <div className="flex flex-col flex-1">
+    <div className={cn('flex flex-col flex-1', className)}>
       <MapContainer className="flex flex-col flex-1" center={center} zoom={13} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
@@ -27,11 +50,10 @@ export const Map = () => {
         />
         {userPosition && (
           <Marker position={userPosition}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
+            <Popup>Minha posição</Popup>
           </Marker>
         )}
+        {renderPoints()}
       </MapContainer>
     </div>
   );
