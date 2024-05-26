@@ -1,8 +1,10 @@
 import { cn } from '../../utils/cn';
+import { AlertIcon } from './types/alert';
 import { ArrowLeftIcon } from './types/arrow-left';
 import { CheckIcon } from './types/check';
 import { ChevronDownIcon } from './types/chevron-down';
 import { ChevronUpIcon } from './types/chevron-up';
+import { ArrowRightIcon } from './types/arrow-right';
 import { CloseIcon } from './types/close';
 import { ContactIcon } from './types/contact';
 import { DogFootIcon } from './types/dog-foot';
@@ -18,6 +20,7 @@ interface Props {
 }
 
 const types = {
+  arrowRight: ArrowRightIcon,
   arrowLeft: ArrowLeftIcon,
   check: CheckIcon,
   chevronDown: ChevronDownIcon,
@@ -28,6 +31,7 @@ const types = {
   people: PeopleIcon,
   contact: ContactIcon,
   search: SearchIcon,
+  alert: AlertIcon,
 } as const;
 
 export type IconType = keyof typeof types;

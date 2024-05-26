@@ -11,7 +11,7 @@ export function Header() {
       <div className="flex flex-wrap items-center justify-center flex-1 relative gap-3 max-w-[1050px]">
         {location.pathname !== '/' && (
           <IconButton className="absolute left-0 " onClick={() => navigate(-1)}>
-            <Icon type="arrowLeft" size={5} />
+            <Icon type="arrowLeft" className="fill-white" size={5} />
           </IconButton>
         )}
         <Logo className="text-white" />
