@@ -1,17 +1,15 @@
-import Navbar from '../../components/NavBar';
-import { Footer } from '../../components/layouts/components/footer';
-import { Header } from '../../components/layouts/components/header';
-import { Loading } from '../../components/loading';
-import { Map } from '../../components/map';
-import { Example, useExample } from '../../features/example';
+import { AddressRequired } from '../../features/addresses/components/address-required';
+import { AuthRequired } from '../../features/auth';
 
 export function HomePage() {
-  const { data: example, isLoading } = useExample();
-
   return (
-    <div className="flex flex-col flex-1">
-      {/* {isLoading || !example ? <Loading /> : <Example example={example} />} */}
-      asdasdasd
-    </div>
+    <AddressRequired>
+      <AuthRequired>
+        <div className="flex flex-col flex-1">
+          Jogers?
+          {/* {isLoading || !example ? <Loading /> : <Example example={example} />} */}
+        </div>
+      </AuthRequired>
+    </AddressRequired>
   );
 }

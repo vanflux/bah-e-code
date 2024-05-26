@@ -1,5 +1,8 @@
 import { cn } from '../../utils/cn';
 import { ArrowLeftIcon } from './types/arrow-left';
+import { CheckIcon } from './types/check';
+import { ChevronDownIcon } from './types/chevron-down';
+import { ChevronUpIcon } from './types/chevron-up';
 import { CloseIcon } from './types/close';
 
 interface Props {
@@ -11,6 +14,9 @@ interface Props {
 
 const types = {
   arrowLeft: ArrowLeftIcon,
+  check: CheckIcon,
+  chevronDown: ChevronDownIcon,
+  chevronUp: ChevronUpIcon,
   close: CloseIcon,
 } as const;
 

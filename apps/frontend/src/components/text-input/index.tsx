@@ -11,7 +11,7 @@ export interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 const classes = {
   container: {
-    default: 'relative w-64',
+    default: 'relative',
   },
   leftDecoration: {
     default: 'absolute w-8 h-full flex items-center justify-center',
@@ -20,7 +20,7 @@ const classes = {
     },
   },
   input: {
-    default: 'rounded px-3 py-1 font-medium outline-none text-gray-600 border border-gray-300 bg-white w-full',
+    default: 'rounded-xl shadow-system px-3 py-2 font-medium outline-none text-gray-600 bg-white w-full',
     disabled: {
       true: 'bg-gray-200 text-gray-400 text cursor-not-allowed',
     },

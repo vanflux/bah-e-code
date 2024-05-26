@@ -1,5 +1,10 @@
 import { TailSpin } from 'react-loader-spinner';
 
-export function Loading() {
-  return <TailSpin width={24} height={24} />;
+interface Props {
+  size?: 1 | 2;
+}
+
+export function Loading({ size = 2 }: Props) {
+  const value = size === 2 ? 24 : 16;
+  return <TailSpin width={value} height={value} />;
 }

@@ -1,0 +1,129 @@
+import { useEffect, useMemo, useState } from 'react';
+import { TextInput } from '../../../components/text-input';
+import { CitySelectInput } from '../../../components/city-select-input';
+import { useCep } from '../hooks';
+import { Loading } from '../../../components/loading';
+
+export interface AddressFormData {
+  name?: string;
+  zipCode?: string;
+  city?: string;
+  street?: string;
+  streetNumber?: number;
+  neighbourhood?: string;
+}
+
+export interface Props {
+  value: AddressFormData;
+  onChange: (value: AddressFormData) => void;
+}
+
+// I know formikm yup and zod existence, but
+// there is no reason to use no one of these
+// things here, just more complexity added.
+export function AddressForm({ value, onChange }: Props) {
+  const [name, setName] = useState(value.name);
+  const [zipCodeInput, setZipCode] = useState(value.zipCode);
+  const [city, setCity] = useState(value.city);
+  const [street, setStreet] = useState(value.street);
+  const [streetNumber, setStreetNumber] = useState(value.streetNumber);
+  const [neighbourhood, setNeighbourhood] = useState(value.neighbourhood);
+
+  const [nameTouch, setNameTouch] = useState(false);
+  const [zipCodeInputTouch, setZipCodeTouch] = useState(false);
+  const [cityTouch, setCityTouch] = useState(false);
+
+  const { data: cepData, isLoading: cepIsLoading } = useCep(zipCodeInput);
+
+  useEffect(() => {
+    if (cepData?.city) setCity(cepData.city);
+    if (cepData?.neighborhood) setNeighbourhood(cepData.neighborhood);
+    if (cepData?.street) setStreet(cepData.street);
+  }, [cepData]);
+
+  const nameError = useMemo(() => {
+    if (!name?.length) return 'Campo obrigatório';
+  }, [name]);
+
+  const zipCodeError = useMemo(() => {
+    if (zipCodeInput?.includes('_')) return 'Cep inválido';
+  }, [zipCodeInput]);
+
+  const cityError = useMemo(() => {
+    if (!city?.length) return 'Campo obrigatório';
+  }, [city]);
+
+  useEffect(() => {
+    const zipCode = zipCodeInput?.replace(/[^\d]/g, '');
+    onChange({ name, zipCode, city, neighbourhood, street, streetNumber });
+  }, [name, zipCodeInput, city, street, streetNumber, neighbourhood]);
+
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-col">
+        <p className="font-medium">Nome do local</p>
+        <TextInput
+          className="w-full"
+          value={name ?? ''}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Insira o nome do local"
+          onBlur={() => setNameTouch(true)}
+          errorMessage={nameTouch ? nameError : undefined}
+        />
+      </div>
+      <div className="flex flex-col">
+        <div className="flex gap-2 items-center">
+          <p className="font-medium">Cep</p>
+          {cepIsLoading && <Loading size={1} />}
+        </div>
+        <TextInput
+          className="w-full"
+          mask="99999-999"
+          value={zipCodeInput ?? ''}
+          onChange={(e) => setZipCode(e.target.value)}
+          placeholder="Insira o seu cep"
+          onBlur={() => setZipCodeTouch(true)}
+          errorMessage={zipCodeInputTouch ? zipCodeError : undefined}
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="font-medium">Cidade</p>
+        <CitySelectInput
+          className="w-full"
+          value={city ?? ''}
+          onChange={(value) => setCity(value)}
+          placeholder="Insira a sua cidade"
+          onBlur={() => setCityTouch(true)}
+          errorMessage={cityTouch ? cityError : undefined}
+        />
+      </div>
+      <div className="flex flex-col">
+        <p className="font-medium">Bairro</p>
+        <TextInput
+          className="w-full"
+          value={neighbourhood ?? ''}
+          onChange={(e) => setNeighbourhood(e.target.value)}
+          placeholder="Insira o seu bairro"
+        />
+      </div>
+      <div className="flex gap-3">
+        <div className="flex flex-col flex-1">
+          <p className="font-medium">Rua</p>
+          <TextInput value={street ?? ''} onChange={(e) => setStreet(e.target.value)} placeholder="Insira a sua rua" />
+        </div>
+        <div className="flex flex-col w-20">
+          <p className="font-medium">Número</p>
+          <TextInput
+            value={streetNumber ?? ''}
+            onChange={(e) => {
+              if (!e.target.value) return setStreetNumber(undefined);
+              const num = parseInt(e.target.value);
+              if (!isNaN(num)) return setStreetNumber(num);
+            }}
+            placeholder="Nº"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}

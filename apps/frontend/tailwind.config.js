@@ -9,7 +9,7 @@ module.exports = {
         200: "#b794f6",
         300: "#9965f4",
         400: "#7e3ff2",
-        500: "#6002ee",
+        500: "#296AB7",
         600: "#5300e8",
         700: "#3d00e0",
         800: "#1c00db",
@@ -28,6 +28,9 @@ module.exports = {
       white: '#ffffff',
       black: '#000000',
       overlay: "#00000040"
+    },
+    boxShadow: {
+      system: '0px 1px 2px 1px #00000040',
     },
     keyframes: {
       overlayShow: {
