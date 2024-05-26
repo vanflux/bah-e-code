@@ -13,7 +13,6 @@ export const WarnList = () => {
       ) : (
         <>
           <div className="flex flex-wrap justify-center gap-3">
-            {/* <div className="flex-col"> */}
             <div className="">
               <h1>Alertas</h1>
               <div className="h-[10px]" />
@@ -21,7 +20,6 @@ export const WarnList = () => {
                 <Icon type="alert" className="fill-red-500" size={7} />
               </div>
             </div>
-            {/* </div> */}
             {warns.map((it) => (
               <>
                 <WarnCard id={it.alertId} date={it.createdAt} title={it.title}></WarnCard>

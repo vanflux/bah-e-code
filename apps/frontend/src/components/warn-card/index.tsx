@@ -13,7 +13,7 @@ export const WarnCard = ({ date, id, title }: WarnCardProps) => {
   return (
     <div className="border border-gray-300 shadow rounded-lg max-w-[90%] p-2" onClick={() => navigate(routes.WARN(id))}>
       <h3 className="text-sm font-bold">{title}</h3>
-      <div className="h[10px]"></div>
+      <div className="h-[10px]"></div>
       <p className="text-red-500">{`${formatDDMMYYYY(date)} ás ${formatHHMM(date)}`}</p>
     </div>
   );
