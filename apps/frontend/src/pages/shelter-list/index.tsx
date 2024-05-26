@@ -1,35 +1,67 @@
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { ShelterCard } from './components/shelter-card';
 import { SearchInput } from '../../components/search-input';
 import { useShelters } from '../../features/shelters';
 import { Loading } from '../../components/loading';
-import { Map, Point } from '../../components/map';
+import { LMap, Point } from '../../components/map';
+import { Map } from 'leaflet';
+import { useCurrentLocation } from '../../features/current-location';
+import LocationSelectInput from '../../components/location-select-input';
 
 export function ShelterListPage() {
   const [search, setSearch] = useState('');
-  const { data: shelterPages, isLoading } = useShelters({
-    search,
-  });
-  const mapRef = useRef<HTMLDivElement>(null);
-
-  const [points, setPoints] = useState<Point[]>([]);
+  const { latitude, longitude } = useCurrentLocation();
+  const { data: shelterPages, isLoading } = useShelters(
+    {
+      latitude: latitude!,
+      longitude: longitude!,
+      search,
+    },
+    !!latitude && !!longitude,
+  );
+  const anchorRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<Map>(null);
 
   const shelters = shelterPages?.pages.flatMap((page) => page.items ?? []);
 
-  function handleShowMap(point: Point) {
-    if (mapRef.current) {
-      mapRef.current.scrollIntoView({ behavior: 'smooth' });
+  function handleShowMap(id: string) {
+    if (anchorRef.current) {
+      anchorRef.current.scrollIntoView({ behavior: 'smooth' });
     }
 
-    setPoints(() => [point]);
+    if (!mapRef.current) {
+      return;
+    }
+
+    const shelter = shelters?.find((shelter) => shelter.shelterId === id);
+
+    if (!shelter?.latitude || !shelter.longitude) {
+      return;
+    }
+
+    mapRef.current.setView([shelter.latitude, shelter.longitude], 16);
   }
+
+  const points = useMemo(() => {
+    if (!shelters) return [];
+    return shelters
+      .filter(({ latitude, longitude }) => latitude && longitude)
+      .map(
+        (shelter): Point => ({
+          position: [shelter.latitude!, shelter.longitude!],
+          label: shelter.name,
+          id: shelter.shelterId,
+        }),
+      );
+  }, []);
 
   return (
     <div>
-      <div ref={mapRef} />
-      <Map className="h-72" points={points} />
+      <div ref={anchorRef} />
+      <LMap className="h-60" points={points} ref={mapRef} />
 
       <div className="flex flex-col flex-1 p-4 gap-4">
+        <LocationSelectInput />
         <SearchInput value={search} onChange={setSearch} />
 
         {isLoading ? (

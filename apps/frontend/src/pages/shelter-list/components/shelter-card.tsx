@@ -8,7 +8,7 @@ import { Point } from '../../../components/map';
 
 export interface ShelterCardProps {
   data: ShelterDto;
-  showMap?: (point: Point) => void;
+  showMap?: (id: string) => void;
 }
 
 export function ShelterCard({ data, showMap }: ShelterCardProps) {
@@ -23,21 +23,18 @@ export function ShelterCard({ data, showMap }: ShelterCardProps) {
       return;
     }
 
-    showMap({
-      position: [latitude, longitude],
-      label: name,
-    });
+    showMap(shelterId);
   }
 
   return (
     <div className="flex flex-col gap-2 rounded-md shadow-system p-2">
       <div className="flex flex-col sm:flex-row sm:items-center">
         <div className="sm:w-[calc(100%-144px)]">
-          <Typography size="h3" bold>
+          <Typography size="h3" semibold>
             {name}
           </Typography>
           {capacity === shelteredPeople ? (
-            <Typography size="h5" color="danger" bold>
+            <Typography size="h5" color="danger" semibold>
               Abrigo lotado
             </Typography>
           ) : null}

@@ -2,7 +2,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { FindAllSheltersDto } from '../dtos';
 import { findAllShelters } from '../api';
 
-export function useShelters(body: FindAllSheltersDto) {
+export function useShelters(body: FindAllSheltersDto, enabled: boolean) {
   const page = body.page ?? 1;
   const perPage = body.perPage ?? 25;
   return useInfiniteQuery({
@@ -18,5 +18,6 @@ export function useShelters(body: FindAllSheltersDto) {
       if (page <= 1) return;
       return { page: page - 1, perPage };
     },
+    enabled,
   });
 }

@@ -1,6 +1,6 @@
 import { FocusEvent } from 'react';
 import { cn } from '../../utils/cn';
-import Select, { components } from 'react-select';
+import Select from 'react-select';
 
 export interface SelectInputProps {
   value?: string;

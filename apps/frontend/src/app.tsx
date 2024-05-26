@@ -8,6 +8,7 @@ import { Clipboard } from '@capacitor/clipboard';
 import { useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { AuthProvider } from './features/auth';
+import { CurrentLocationProvider } from './features/current-location';
 
 export function App() {
   useEffect(() => {
@@ -58,9 +59,11 @@ export function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
-        <Router />
-        <ToastContainer />
+        <CurrentLocationProvider>
+          <ReactQueryDevtools initialIsOpen={false} />
+          <Router />
+          <ToastContainer />
+        </CurrentLocationProvider>
       </AuthProvider>
     </QueryClientProvider>
   );
