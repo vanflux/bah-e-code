@@ -20,11 +20,16 @@ export function HomePage() {
               Menu
             </Typography>
             <div className="grid grid-cols-3 gap-3">
-              <IconCard text="Abrigos" navigate={() => navigate(routes.SHELTERS())} iconColor="blue" iconType="shelter" />
-              <IconCard text="Alertas" navigate={() => navigate(routes.WARNS())} iconColor="red" iconType="alert" />
-              <IconCard text="Notificações" navigate={() => navigate(routes.NOTIFICATIONS())} iconColor="blue" iconType="bell" />
-              <IconCard text="Doações" navigate={() => navigate(routes.HOME())} iconColor="red" iconType="donation" />
-              <IconCard text="Voluntários" navigate={() => navigate(routes.HOME())} iconColor="red" iconType="volunteer" />
+              <IconCard text="Abrigos" navigate={() => navigate(routes.SHELTERS())} iconClassName="text-primary-500" iconType="shelter" />
+              <IconCard text="Alertas" navigate={() => navigate(routes.WARNS())} iconClassName="text-red-500" iconType="alert" />
+              <IconCard
+                text="Notificações"
+                navigate={() => navigate(routes.NOTIFICATIONS())}
+                iconClassName="text-primary-500"
+                iconType="bell"
+              />
+              <IconCard text="Doações" navigate={() => navigate(routes.DONATIONS())} iconType="donation" />
+              <IconCard text="Voluntários" navigate={() => navigate(routes.VOLUNTEERS())} iconType="volunteer" />
             </div>
           </div>
         </div>

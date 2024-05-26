@@ -6,7 +6,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const classes = {
-  default: 'rounded-full p-2 font-medium cursor-default hover:bg-gray-200 active:bg-gray-300',
+  default: 'rounded-full p-2 font-medium cursor-default hover:bg-gray-200/10 active:bg-gray-200/20',
 };
 
 export const IconButton = forwardRef<HTMLButtonElement, Props>(
