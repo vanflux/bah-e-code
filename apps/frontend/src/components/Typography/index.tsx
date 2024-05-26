@@ -4,6 +4,12 @@ import { cn } from '../../utils/cn';
 
 const variants = cva('', {
   variants: {
+    align: {
+      start: 'text-start',
+      center: 'text-center',
+      justify: 'text-justify',
+      end: 'text-end',
+    },
     size: {
       default: 'text-base',
       h1: 'text-2xl',

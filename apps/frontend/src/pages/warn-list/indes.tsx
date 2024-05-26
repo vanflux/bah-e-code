@@ -1,3 +1,4 @@
+import { Typography } from '../../components/Typography';
 import { Icon } from '../../components/icons';
 import { Loading } from '../../components/loading';
 import { WarnCard } from '../../components/warn-card';
@@ -12,18 +13,17 @@ export const WarnList = () => {
         <Loading />
       ) : (
         <>
-          <div className="flex flex-wrap justify-center gap-3">
-            <div className="">
-              <h1>Alertas</h1>
-              <div className="h-[10px]" />
+          <div className="flex flex-col justify-center gap-3 p-3">
+            <div className="flex flex-col gap-2">
+              <Typography align="center" semibold size="h2">
+                Alertas
+              </Typography>
               <div className="flex justify-center">
-                <Icon type="alert" className="fill-red-500" size={7} />
+                <Icon type="alert" className="fill-red-500" size={10} />
               </div>
             </div>
-            {warns.map((it) => (
-              <>
-                <WarnCard id={it.alertId} date={it.createdAt} title={it.title}></WarnCard>
-              </>
+            {warns.map((item) => (
+              <WarnCard key={item.alertId} id={item.alertId} date={item.createdAt} title={item.title} />
             ))}
           </div>
         </>
