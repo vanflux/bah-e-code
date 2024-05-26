@@ -7,25 +7,20 @@ import { ShelterListPage } from '../pages/shelter-list';
 import { routes } from './routes';
 import { WarnList } from '../pages/warn-list/indes';
 import { WarnPage } from '../pages/warn';
+import { ShelterDetails } from '../pages/shelter-details';
 
 export function Router() {
   const router = useMemo(() => {
     return createBrowserRouter([
       {
         element: <Layout />,
-        children: [{ path: routes.HOME(), element: <HomePage /> }],
-      },
-      {
-        element: <Layout />,
-        children: [{ path: routes.SHELTERS(), element: <ShelterListPage /> }],
-      },
-      {
-        element: <Layout />,
-        children: [{ path: routes.WARNS(), element: <WarnList /> }],
-      },
-      {
-        element: <Layout />,
-        children: [{ path: routes.WARN(':warnId'), element: <WarnPage /> }],
+        children: [
+          { path: routes.HOME(), element: <HomePage /> },
+          { path: routes.SHELTERS(), element: <ShelterListPage /> },
+          { path: routes.WARNS(), element: <WarnList /> },
+          { path: routes.WARN(':warnId'), element: <WarnPage /> },
+          { path: routes.SHELTER(':shelterId'), element: <ShelterDetails /> },
+        ],
       },
       {
         path: '*',

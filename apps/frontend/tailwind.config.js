@@ -26,6 +26,8 @@ module.exports = {
       red: {
         500: "#F16767",
       },
+      success: '#74CF72',
+      danger: '#F16767',
       white: '#ffffff',
       black: '#000000',
       overlay: "#00000040"
