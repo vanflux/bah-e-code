@@ -19,6 +19,8 @@
   ],
   "license": "ISC",
   "dependencies": {
+    "@radix-ui/react-label": "^2.0.2",
+    "class-variance-authority": "^0.7.0",
     "concurrently": "^8.2.2",
     "husky": "^9.0.11",
     "lint-staged": "^15.1.0",
