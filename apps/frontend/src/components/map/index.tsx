@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { useWatchPosition } from '../../hooks/use-watch-position';
 import { useEffect } from 'react';
 
-export const Map: React.FC = () => {
+export const Map = () => {
   const userCoordinates = useWatchPosition();
 
   const center: LatLngTuple = [-30.069619, -51.166494];

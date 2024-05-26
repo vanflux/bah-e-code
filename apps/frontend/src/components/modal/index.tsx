@@ -21,7 +21,7 @@ export function Modal({ open, className, overlayClassName: inOverlayClassName, h
   const contentClassName = useMemo(
     () =>
       cn(
-        'flex flex-col pt-12 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[95vw] max-w-[400px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-6 shadow-lg focus:outline-none overflow-auto',
+        'flex flex-col pt-12 data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[95vw] max-w-[400px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-6 shadow-system focus:outline-none overflow-auto',
         className,
       ),
     [className],
@@ -36,7 +36,7 @@ export function Modal({ open, className, overlayClassName: inOverlayClassName, h
           {!hideClose && (
             <Dialog.Close asChild>
               <IconButton className="absolute top-[10px] right-[10px]">
-                <Icon type="close" size={6} className="fill-gray-600" />
+                <Icon type="close" size={6} className="text-gray-600" />
               </IconButton>
             </Dialog.Close>
           )}

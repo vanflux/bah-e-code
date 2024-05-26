@@ -7,6 +7,7 @@ export const ArrowLeftIcon = () => (
       height: '100%',
       minWidth: '100%',
       minHeight: '100%',
+      fill: 'currentColor',
     }}
   >
     <path

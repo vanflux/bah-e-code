@@ -4,6 +4,12 @@ import { cn } from '../../utils/cn';
 
 const variants = cva('', {
   variants: {
+    align: {
+      start: 'text-start',
+      center: 'text-center',
+      justify: 'text-justify',
+      end: 'text-end',
+    },
     size: {
       default: 'text-base',
       h1: 'text-2xl',
@@ -14,7 +20,7 @@ const variants = cva('', {
       h6: 'text-xs',
     },
     color: {
-      default: 'text-[#403636]',
+      default: 'text-[#3D3D3D]',
       success: 'text-[#74CF72]',
       danger: 'text-[#F16767]',
       warning: 'text-[#FB8416]',
@@ -30,9 +36,9 @@ const variants = cva('', {
 
 type TypographyProps = React.ComponentPropsWithoutRef<typeof variants> & PropsWithChildren & VariantProps<typeof variants>;
 
-export function Typography({ size, color, bold, semibold, className, children, ...props }: TypographyProps) {
+export function Typography({ size, color, bold, semibold, className, children, align, ...props }: TypographyProps) {
   return (
-    <h1 className={cn(variants({ size, color, bold, semibold, className }))} {...props}>
+    <h1 className={cn(variants({ size, color, bold, semibold, align }), className)} {...props}>
       {children}
     </h1>
   );

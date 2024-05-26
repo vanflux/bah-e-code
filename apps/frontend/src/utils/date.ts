@@ -5,3 +5,8 @@ export function formatDDMMYYYY(input: string | Date) {
   const year = date.getFullYear().toString();
   return `${day}/${month}/${year}`;
 }
+
+export function formatHHMM(input: string | Date) {
+  const date = typeof input === 'string' ? new Date(input) : input;
+  return `${date.getHours()}:${date.getMinutes()}`;
+}
