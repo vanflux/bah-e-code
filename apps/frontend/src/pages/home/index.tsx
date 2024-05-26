@@ -16,7 +16,7 @@ export function HomePage() {
         <div>
           <div className="h-[10px]"></div>
           <div className="flex justify-between p-1">
-            <h1 className="font-bold">Ultimos Alertas </h1>
+            <h1 className="font-bold">Últimos Alertas </h1>
             <div className="h-[10px]"></div>
             <span
               onClick={() => {

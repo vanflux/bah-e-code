@@ -21,11 +21,11 @@ export function Router() {
       },
       {
         element: <Layout />,
-        children: [{ path: '/alertas', element: <WarnList /> }],
+        children: [{ path: routes.WARNS(), element: <WarnList /> }],
       },
       {
         element: <Layout />,
-        children: [{ path: '/alertas/:warnId', element: <WarnPage /> }],
+        children: [{ path: routes.WARN(':warnId'), element: <WarnPage /> }],
       },
       {
         path: '*',
