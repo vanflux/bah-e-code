@@ -1,72 +1,28 @@
 import { useState } from 'react';
-import { Icon } from '../../components/icons';
-import { ShelterCard, ShelterCardProps } from './components/shelter-card';
-
-const mock: Partial<ShelterCardProps>[] = [
-  {
-    shelterId: '1',
-    name: 'Projeto Surfar',
-    address: 'R. Borborema, 687 E 691, Vila João Pessoa, Porto Alegre',
-    city: 'Gravatai',
-    street: 'Rua Domingo Dorivaldo Thiesen',
-    streetNumber: 744,
-    zipCode: '94950590',
-    capacity: 200,
-    shelteredPeople: 200,
-    contact: '(51) 99543-3412',
-    petFriendly: true,
-  },
-  {
-    shelterId: '2',
-    name: 'Projeto Surfar',
-    address: 'R. Borborema, 687 E 691, Vila João Pessoa, Porto Alegre',
-    city: 'Gravatai',
-    street: 'Rua Domingo Dorivaldo Thiesen',
-    streetNumber: 744,
-    zipCode: '94950590',
-    capacity: 200,
-    shelteredPeople: 80,
-    contact: '(51) 99543-3412',
-    petFriendly: false,
-  },
-];
-
-interface SearchInputProps {
-  onSearch: (value: string) => void;
-  value: string;
-}
-
-function SearchInput({ onSearch, value }: SearchInputProps) {
-  return (
-    <div className="shadow-system rounded-full flex items-center pl-4 h-14">
-      <input
-        onChange={(e) => onSearch(e.target.value)}
-        value={value}
-        type="text"
-        placeholder="Buscar abrigo por nome ou endereço"
-        className="grow outline-none"
-      />
-      <div className="w-14 h-14 flex items-center justify-center">
-        <Icon type="search" size={4} />
-      </div>
-    </div>
-  );
-}
+import { ShelterCard } from './components/shelter-card';
+import { SearchInput } from '../../components/search-input';
+import { useShelters } from '../../features/shelters';
+import { Loading } from '../../components/loading';
 
 export function ShelterListPage() {
   const [search, setSearch] = useState('');
+  const { data: shelterPages, isLoading } = useShelters({
+    search,
+  });
+
+  const shelters = shelterPages?.pages.flatMap((page) => page.items ?? []);
 
   return (
-    <div className="flex flex-col flex-1 p-8 gap-4">
-      <div className="pb-2">
-        <SearchInput value={search} onSearch={setSearch} />
-      </div>
+    <div className="flex flex-col flex-1 p-4 gap-4">
+      <SearchInput value={search} onChange={setSearch} />
 
-      {search}
-
-      {mock.map((shelter) => (
-        <ShelterCard key={shelter.shelterId} {...(shelter as any)}></ShelterCard>
-      ))}
+      {isLoading ? (
+        <div className="flex flex-col justify-center items-center flex-1">
+          <Loading />
+        </div>
+      ) : (
+        shelters?.map((shelter) => <ShelterCard key={shelter.shelterId} {...(shelter as any)}></ShelterCard>)
+      )}
     </div>
   );
 }
