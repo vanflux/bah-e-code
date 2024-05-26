@@ -19,7 +19,7 @@ import { AlertsModule } from './alerts/alerts.module';
     ScheduleModule.forRoot(),
     AuthModule,
     DatabaseModule,
-    isDevelopment && DevModule,
+    DevModule,
     AlertsModule,
     DocsModule,
     StatusModule,
