@@ -4,4 +4,7 @@ export const routes = {
   MY_ADDRESSES: () => '/enderecos',
   WARNS: () => `/alertas`,
   WARN: (warnId: string) => `/alertas/${warnId}`,
+  NOTIFICATIONS: () => '/notifications',
+  VOLUNTEERS: () => '',
+  DONATIONS: () => '/donations',
 };
