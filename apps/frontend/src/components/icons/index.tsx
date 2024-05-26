@@ -17,6 +17,7 @@ import { ShelterIcon } from './types/shelter';
 import { VolunteerIcon } from './types/volunteer';
 import { ChevronRightIcon } from './types/chevron-right';
 import { ChevronLeftIcon } from './types/chevron-left';
+import { CenterLocationIcon } from './types/center-location';
 
 interface Props {
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20;
@@ -44,6 +45,7 @@ const types = {
   shelter: ShelterIcon,
   bell: BellIcon,
   donation: DonationIcon,
+  centerLocation: CenterLocationIcon,
 } as const;
 
 export type IconType = keyof typeof types;

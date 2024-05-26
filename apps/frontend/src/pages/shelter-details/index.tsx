@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { Typography } from '../../components/Typography';
 import { Icon } from '../../components/icons';
-import { Map } from '../../components/map';
+import { LMap } from '../../components/map';
 
 function isAvaillable(used: number, total: number) {
   const full = used === total;
@@ -23,7 +23,7 @@ export function ShelterDetails() {
 
   return (
     <div>
-      <Map className="h-72" />
+      <LMap className="h-72" />
 
       <div className="p-4 flex flex-col gap-2">
         <Typography size="h1" bold>

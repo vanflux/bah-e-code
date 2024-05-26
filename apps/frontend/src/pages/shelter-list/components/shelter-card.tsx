@@ -8,7 +8,7 @@ import { Point } from '../../../components/map';
 
 export interface ShelterCardProps {
   data: ShelterDto;
-  showMap?: (point: Point) => void;
+  showMap?: (id: string) => void;
 }
 
 export function ShelterCard({ data, showMap }: ShelterCardProps) {
@@ -23,10 +23,7 @@ export function ShelterCard({ data, showMap }: ShelterCardProps) {
       return;
     }
 
-    showMap({
-      position: [latitude, longitude],
-      label: name,
-    });
+    showMap(shelterId);
   }
 
   return (
