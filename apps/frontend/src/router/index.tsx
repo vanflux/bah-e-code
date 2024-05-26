@@ -13,19 +13,13 @@ export function Router() {
     return createBrowserRouter([
       {
         element: <Layout />,
-        children: [{ path: routes.HOME(), element: <HomePage /> }],
-      },
-      {
-        element: <Layout />,
-        children: [{ path: routes.SHELTERS(), element: <ShelterListPage /> }],
-      },
-      {
-        element: <Layout />,
-        children: [{ path: routes.WARNS(), element: <WarnList /> }],
-      },
-      {
-        element: <Layout />,
-        children: [{ path: routes.WARN(':warnId'), element: <WarnPage /> }],
+        children: [
+          { path: routes.HOME(), element: <HomePage /> },
+          { path: routes.SHELTERS(), element: <ShelterListPage /> },
+          { path: routes.WARNS(), element: <WarnList /> },
+          { path: routes.WARN(':warnId'), element: <WarnPage /> },
+
+        ],
       },
       {
         path: '*',
