@@ -8,6 +8,7 @@ import { Shelter } from './models/shelter.model';
 import { Supply } from './models/supply.model';
 import { SupplyCategory } from './models/supply-category.model';
 import { Alert } from './models/alert.model';
+import { Address } from './models/address.model';
 
 export const databaseProviders: Provider[] = [
   {
@@ -42,7 +43,7 @@ export const databaseProviders: Provider[] = [
         logging: false,
         benchmark: true,
       });
-      sequelize.addModels([User, SupplyCategory, Supply, Shelter, ShelterSupply, Alert]);
+      sequelize.addModels([User, SupplyCategory, Supply, Shelter, ShelterSupply, Alert, Address]);
       return sequelize;
     },
     inject: [ConfigService],
@@ -70,5 +71,9 @@ export const databaseProviders: Provider[] = [
   {
     provide: Constants.ALERTS_REPOSITORY,
     useValue: Alert,
+  },
+  {
+    provide: Constants.ADDRESSES_REPOSITORY,
+    useValue: Address,
   },
 ];

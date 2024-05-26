@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SosRsModule } from './sos-rs/sos-rs.module';
 import { AlertsModule } from './alerts/alerts.module';
+import { AddressesModule } from './addresses/addresses.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AlertsModule } from './alerts/alerts.module';
     AuthModule,
     DatabaseModule,
     DevModule,
+    AddressesModule,
     AlertsModule,
     DocsModule,
     StatusModule,
