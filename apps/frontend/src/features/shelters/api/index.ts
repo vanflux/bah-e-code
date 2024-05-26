@@ -1,1 +1,2 @@
-export * from './find-all-shelters.dto';
+export * from './find-all-shelters';
+export * from './get-shelter';

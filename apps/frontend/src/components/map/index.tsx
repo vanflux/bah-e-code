@@ -31,10 +31,7 @@ export const LMap = React.forwardRef<Map, MapProps>(({ className, points }, ref)
   const userPosition: LatLngTuple | undefined = latitude && longitude ? [latitude, longitude] : undefined;
 
   function renderPoints() {
-    if (!points?.length) {
-      return;
-    }
-
+    if (!points?.length) return;
     return points.map((point) => (
       <Marker position={point.position} key={point.id} icon={markerIcon}>
         <Popup>{point.label}</Popup>

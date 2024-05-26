@@ -4,7 +4,6 @@ import { Button } from '../../../components/button';
 import { Icon } from '../../../components/icons';
 import { routes } from '../../../router/routes';
 import { ShelterDto } from '../../../features/shelters';
-import { Point } from '../../../components/map';
 
 export interface ShelterCardProps {
   data: ShelterDto;
@@ -12,17 +11,12 @@ export interface ShelterCardProps {
 }
 
 export function ShelterCard({ data, showMap }: ShelterCardProps) {
-  const { shelterId, name, address, contact, petFriendly, capacity, shelteredPeople, latitude, longitude } = data;
+  const { shelterId, name, address, contact, petFriendly, capacity, shelteredPeople, imageUrl, latitude, longitude } = data;
+  const hasLocation = !!latitude && !!longitude;
 
   function emitPoint() {
-    if (!showMap) {
-      return;
-    }
-
-    if (!latitude || !longitude) {
-      return;
-    }
-
+    if (!showMap) return;
+    if (!hasLocation) return;
     showMap(shelterId);
   }
 
@@ -48,21 +42,27 @@ export function ShelterCard({ data, showMap }: ShelterCardProps) {
               <Typography size="h4">O abrigo aceita animais</Typography>
             </div>
           ) : null}
-          <div className="flex gap-2 items-center">
-            <Icon type="people" size={3} className="fill-gray-600" />
-            <Typography size="h4">
-              {shelteredPeople}/{capacity} pessoas abrigadas
-            </Typography>
-          </div>
-          <div className="flex gap-2 items-center">
-            <Icon type="contact" size={3} className="fill-gray-600" />
-            <Typography size="h4">Contato: {contact}</Typography>
-          </div>
+          {shelteredPeople != null && capacity != null && (
+            <div className="flex gap-2 items-center">
+              <Icon type="people" size={3} className="fill-gray-600" />
+              <Typography size="h4">
+                {shelteredPeople}/{capacity} pessoas abrigadas
+              </Typography>
+            </div>
+          )}
+          {!!contact && (
+            <div className="flex gap-2 items-center">
+              <Icon type="contact" size={3} className="fill-gray-600" />
+              <Typography size="h4">Contato: {contact}</Typography>
+            </div>
+          )}
         </div>
 
-        <div className="sm:w-36 flex justify-center">
-          <img className="h-32 sm:w-36 sm:h-36 rounded" src="https://tinyurl.com/2hzpxu9c" />
-        </div>
+        {!!imageUrl && (
+          <div className="sm:w-36 flex justify-center">
+            <img className="h-32 sm:w-36 sm:h-36 rounded" src={imageUrl} />
+          </div>
+        )}
       </div>
 
       <div className="w-full flex sp gap-2">
@@ -70,9 +70,11 @@ export function ShelterCard({ data, showMap }: ShelterCardProps) {
           <Button full>Ver detalhes</Button>
         </Link>
 
-        <Button className="flex-1" onClick={emitPoint}>
-          Ver no mapa
-        </Button>
+        {hasLocation && (
+          <Button className="flex-1" onClick={emitPoint}>
+            Ver no mapa
+          </Button>
+        )}
       </div>
     </div>
   );

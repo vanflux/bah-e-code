@@ -149,6 +149,7 @@ export class SosRsService {
         name: theirShelter.name,
         petFriendly: theirShelter.petFriendly,
         pix: theirShelter.pix,
+        shelteredPeople: theirShelter.shelteredPeople,
         prioritySum: theirShelter.prioritySum,
         verified: theirShelter.verified,
         actived: theirShelter.actived,

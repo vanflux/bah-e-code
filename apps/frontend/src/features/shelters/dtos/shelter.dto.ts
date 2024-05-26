@@ -12,6 +12,7 @@ export interface ShelterDto {
   capacity?: number;
   petFriendly: boolean;
   shelteredPeople?: number;
+  imageUrl?: string;
   prioritySum: number;
   verified: boolean;
   latitude?: number;

@@ -53,12 +53,12 @@ export function ShelterListPage() {
           id: shelter.shelterId,
         }),
       );
-  }, []);
+  }, [shelters]);
 
   return (
     <div>
       <div ref={anchorRef} />
-      <LMap className="h-60" points={points} ref={mapRef} />
+      <LMap className="min-h-60" points={points} ref={mapRef} />
 
       <div className="flex flex-col flex-1 p-4 gap-4">
         <LocationSelectInput />
