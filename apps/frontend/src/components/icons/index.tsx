@@ -18,6 +18,11 @@ import { VolunteerIcon } from './types/volunteer';
 import { ChevronRightIcon } from './types/chevron-right';
 import { ChevronLeftIcon } from './types/chevron-left';
 import { CenterLocationIcon } from './types/center-location';
+import { FacebookIcon } from './types/facebook';
+import { InstagramIcon } from './types/instagram';
+import { YouTubeIcon } from './types/youtube';
+import { TwitterIcon } from './types/twitter';
+import { FlickIcon } from './types/flick';
 
 interface Props {
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 12 | 20;
@@ -46,6 +51,11 @@ const types = {
   bell: BellIcon,
   donation: DonationIcon,
   centerLocation: CenterLocationIcon,
+  facebook: FacebookIcon,
+  instagram: InstagramIcon,
+  youtube: YouTubeIcon,
+  twitter: TwitterIcon,
+  flic: FlickIcon,
 } as const;
 
 export type IconType = keyof typeof types;
