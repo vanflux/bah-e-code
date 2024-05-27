@@ -10,6 +10,7 @@ import { WarnPage } from '../pages/warn';
 import { ShelterDetails } from '../pages/shelter-details';
 import { ShelterListToSendDonationsPage } from '../pages/shelter-list-to-send-donations';
 import { ShelterListToReceiveDonationsPage } from '../pages/shelter-list-to-receive-donations';
+import { AddressesPage } from '../pages/addresses';
 
 export function Router() {
   const router = useMemo(() => {
@@ -24,6 +25,7 @@ export function Router() {
           { path: routes.SHELTER(':shelterId'), element: <ShelterDetails /> },
           { path: routes.SHELTERS_TO_SEND_DOTATIONS(':shelterId'), element: <ShelterListToSendDonationsPage /> },
           { path: routes.SHELTERS_TO_RECEIVE_DOTATIONS(':shelterId'), element: <ShelterListToReceiveDonationsPage /> },
+          { path: routes.MY_ADDRESSES(), element: <AddressesPage /> },
         ],
       },
       {

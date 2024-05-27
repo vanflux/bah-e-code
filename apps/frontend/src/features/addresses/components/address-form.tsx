@@ -11,6 +11,9 @@ export interface AddressFormData {
   street?: string;
   streetNumber?: number;
   neighbourhood?: string;
+  alertsEnabled?: boolean;
+  donationsEnabled?: boolean;
+  volunteersEnabled?: boolean;
 }
 
 export interface Props {
@@ -28,6 +31,9 @@ export function AddressForm({ value, onChange }: Props) {
   const [street, setStreet] = useState(value.street);
   const [streetNumber, setStreetNumber] = useState(value.streetNumber);
   const [neighbourhood, setNeighbourhood] = useState(value.neighbourhood);
+  const [alertsEnabled] = useState<boolean>(true);
+  const [donationsEnabled] = useState<boolean>(true);
+  const [volunteersEnabled] = useState<boolean>(true);
 
   const [nameTouch, setNameTouch] = useState(false);
   const [zipCodeInputTouch, setZipCodeTouch] = useState(false);
@@ -55,7 +61,7 @@ export function AddressForm({ value, onChange }: Props) {
 
   useEffect(() => {
     const zipCode = zipCodeInput?.replace(/[^\d]/g, '');
-    onChange({ name, zipCode, city, neighbourhood, street, streetNumber });
+    onChange({ name, zipCode, city, neighbourhood, street, streetNumber, alertsEnabled, donationsEnabled, volunteersEnabled });
   }, [name, zipCodeInput, city, street, streetNumber, neighbourhood]);
 
   return (
