@@ -10,6 +10,7 @@ import { SupplyCategory } from 'src/database/models/supply-category.model';
 import { ShelterSupply } from 'src/database/models/shelter-supply.model';
 import { GetSheltersToSendDonationsDto } from './dtos/get-shelters-to-send-donations';
 import { SupplyPriority } from './enums/supply-priority.enum';
+import { ShelterPointDto } from './dtos/shelter-point.dto';
 
 @Injectable()
 export class SheltersService {
@@ -140,6 +141,21 @@ export class SheltersService {
         ],
       },
     ]);
+  }
+
+  public async getSheltersPoints(): Promise<ShelterPointDto[]> {
+    const shelters = await this.shelterRepo.findAll({
+      attributes: ['shelterId', 'name', 'latitude', 'longitude'],
+      where: {
+        latitude: {
+          [Op.not]: null,
+        },
+        longitude: {
+          [Op.not]: null,
+        },
+      },
+    });
+    return shelters.map(ShelterPointDto.fromModel);
   }
 
   public async getById(shelterId: string) {

@@ -5,6 +5,7 @@ import { LMap, Point } from '../../../../components/map';
 import { Loading } from '../../../../components/loading';
 import { ShelterCard } from './components/shelter-card';
 import { Typography } from '../../../../components/Typography';
+import { useShelterPoints } from '../../hooks/use-shelter-points';
 
 interface Props {
   shelters?: ShelterDto[];
@@ -15,6 +16,7 @@ interface Props {
 
 export function ShelterList({ shelters, total, isLoading, children }: Props) {
   const anchorRef = useRef<HTMLDivElement>(null);
+  const { data: shelterPoints } = useShelterPoints();
   const mapRef = useRef<Map>(null);
 
   function handleShowMap(id: string) {
@@ -36,17 +38,13 @@ export function ShelterList({ shelters, total, isLoading, children }: Props) {
   }
 
   const points = useMemo(() => {
-    if (!shelters) return [];
-    return shelters
-      .filter(({ latitude, longitude }) => latitude && longitude)
-      .map(
-        (shelter): Point => ({
-          position: [shelter.latitude!, shelter.longitude!],
-          label: shelter.name,
-          id: shelter.shelterId,
-        }),
-      );
-  }, [shelters]);
+    if (!shelterPoints) return [];
+    return shelterPoints.map<Point>((item) => ({
+      id: item.shelterId,
+      label: item.name,
+      position: [item.latitude, item.longitude],
+    }));
+  }, [shelterPoints]);
 
   return (
     <div className="flex flex-col flex-1">

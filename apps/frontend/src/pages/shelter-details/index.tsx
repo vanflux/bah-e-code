@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { Typography } from '../../components/Typography';
 import { Icon, IconType } from '../../components/icons';
-import { LMap } from '../../components/map';
+import { LMap, Point } from '../../components/map';
 import LocationSelectInput from '../../components/location-select-input';
 import { ShelterSuppliesModal, SupplyPriority, useShelter } from '../../features/shelters';
 import { Loading } from '../../components/loading';
@@ -10,6 +10,7 @@ import { ShelterSupplyDto } from '../../features/shelters/dtos/shelter-supply.dt
 import { SupplyCategoryDto } from '../../features/shelters/dtos/supply-category.dto';
 import { Button } from '../../components/button';
 import { routes } from '../../router/routes';
+import { useShelterPoints } from '../../features/shelters/hooks/use-shelter-points';
 
 function isAvaillable(used?: number, total?: number) {
   if (used == null || total == null) return null;
@@ -31,6 +32,7 @@ function isAvaillable(used?: number, total?: number) {
 export function ShelterDetails() {
   const { shelterId } = useParams();
   const { data: shelter, isLoading } = useShelter(shelterId);
+  const { data: shelterPoints } = useShelterPoints();
   const [showingShelterSupplies, setShowingShelterSupplies] = useState<ShelterSupplyDto[]>();
 
   const getItems = (priorities: SupplyPriority[]) => {
@@ -57,9 +59,19 @@ export function ShelterDetails() {
 
   const remainingItems = useMemo(() => getItems([SupplyPriority.Remaining]), [getItems]);
 
+  const points = useMemo(() => {
+    if (!shelterPoints) return [];
+    return shelterPoints.map<Point>((item) => ({
+      id: item.shelterId,
+      label: item.name,
+      position: [item.latitude, item.longitude],
+      disabled: item.shelterId !== shelterId,
+    }));
+  }, [shelterPoints, shelterId]);
+
   return (
     <div className="flex flex-col gap-3">
-      <LMap className="min-h-60" />
+      <LMap className="min-h-60" points={points} />
       <div className="flex flex-col gap-2 px-4 pb-3">
         <LocationSelectInput />
 
@@ -114,11 +126,11 @@ export function ShelterDetails() {
                   Doações necessárias
                 </Typography>
 
-                <div className="grid grid-cols-3 gap-3 cursor-pointer">
+                <div className="grid grid-cols-3 gap-3">
                   {needingItems.map((item) => (
                     <div
                       key={item.category.supplyCategoryId}
-                      className="flex flex-col items-center justify-center h-[120px] gap-1 p-3 shadow-system rounded-xl overflow-hidden"
+                      className="flex flex-col items-center justify-center h-[120px] gap-1 p-3 shadow-system rounded-xl cursor-pointer overflow-hidden"
                       onClick={() => setShowingShelterSupplies(item.shelterSupplies)}
                     >
                       <Icon size={12} className="text-red-500" type={(item.category.icon as IconType) ?? 'shelter'} />
@@ -145,7 +157,7 @@ export function ShelterDetails() {
                   {remainingItems.map((item) => (
                     <div
                       key={item.category.supplyCategoryId}
-                      className="flex flex-col items-center justify-center h-[120px] gap-1 p-3 shadow-system rounded-xl overflow-hidden"
+                      className="flex flex-col items-center justify-center h-[120px] gap-1 p-3 shadow-system rounded-xl cursor-pointer overflow-hidden"
                       onClick={() => setShowingShelterSupplies(item.shelterSupplies)}
                     >
                       <Icon size={12} className="text-green-500" type={(item.category.icon as IconType) ?? 'shelter'} />

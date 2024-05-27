@@ -9,10 +9,15 @@ export interface Point {
   position: LatLngTuple;
   label: string;
   id: string;
+  disabled?: boolean;
 }
 
-const markerIcon = new L.Icon({
-  iconUrl: '/assets/svg/marker.svg',
+const shelterIcon = new L.Icon({
+  iconUrl: '/assets/svg/shelter.svg',
+});
+
+const disabledShelterIcon = new L.Icon({
+  iconUrl: '/assets/svg/disabled-shelter.svg',
 });
 
 const userLocationIcon = new L.Icon({
@@ -33,7 +38,7 @@ export const LMap = React.forwardRef<Map, MapProps>(({ className, points }, ref)
   function renderPoints() {
     if (!points?.length) return;
     return points.map((point) => (
-      <Marker position={point.position} key={point.id} icon={markerIcon}>
+      <Marker key={point.id} position={point.position} icon={point.disabled ? disabledShelterIcon : shelterIcon}>
         <Popup>{point.label}</Popup>
       </Marker>
     ));

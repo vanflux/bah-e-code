@@ -7,13 +7,21 @@ import { Page, PageType } from 'src/utils/page';
 import { FindAllSheltersDto } from './dtos/find-all-shelters.dto';
 import { GetSheltersToSendDonationsDto } from './dtos/get-shelters-to-send-donations';
 import { GetSheltersToReceiveDonationsDto } from './dtos/get-shelters-to-receive-donations';
+import { ShelterPointDto } from './dtos/shelter-point.dto';
 
 @ApiTags('shelters')
 @Controller('/shelters')
 export class SheltersController {
   constructor(private sheltersService: SheltersService) {}
 
-  @Get(':id/shelters-to-send-donations')
+  @Get('/points')
+  @Version('1')
+  @ApiResponse({ type: ShelterPointDto, isArray: true })
+  async getShelterPoints() {
+    return await this.sheltersService.getSheltersPoints();
+  }
+
+  @Get('/:id/shelters-to-send-donations')
   @Version('1')
   @ApiResponse({ type: ShelterDto })
   async getSheltersToSendDonations(@Param('id') id: string, @Query() body: GetSheltersToSendDonationsDto) {
@@ -28,7 +36,7 @@ export class SheltersController {
     };
   }
 
-  @Get(':id/shelters-to-receive-donations')
+  @Get('/:id/shelters-to-receive-donations')
   @Version('1')
   @ApiResponse({ type: ShelterDto })
   async getSheltersToReceiveDonations(@Param('id') id: string, @Query() body: GetSheltersToReceiveDonationsDto) {
@@ -43,7 +51,7 @@ export class SheltersController {
     };
   }
 
-  @Get(':id')
+  @Get('/:id')
   @Version('1')
   @ApiResponse({ type: ShelterDto })
   async getById(@Param('id') id: string) {
