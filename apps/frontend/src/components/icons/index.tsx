@@ -28,21 +28,13 @@ import { DoctorIcon } from './types/doctor';
 import { CatIcon } from './types/cat';
 import { DogIcon } from './types/dog';
 import { CatDogIcon } from './types/cat-dog';
-import { DonateCleaningNeedIcon } from './types/donate-cleaning-need';
 import { DonateCleaningIcon } from './types/donate-cleaning';
-import { DonateClothesNeedIcon } from './types/donate-clothes-need';
 import { DonateClothesIcon } from './types/donate-clothes';
-import { DonateDispensableNeedIcon } from './types/donate-dispensable-need';
 import { DonateDispensableIcon } from './types/donate-dispensable';
-import { DonateFoodNeedIcon } from './types/donate-food-need';
 import { DonateFoodIcon } from './types/donate-food';
-import { DonateHygieneNeedIcon } from './types/donate-hygiene-need';
 import { DonateHygieneIcon } from './types/donate-hygiene';
-import { DonateMedsNeedIcon } from './types/donate-meds-need';
 import { DonateMedsIcon } from './types/donate-meds';
-import { DonatePetsNeedIcon } from './types/donate-pet-need';
 import { DonatePetsIcon } from './types/donate-pets';
-import { DonateVolunteersNeedIcon } from './types/donate-volunteers-need';
 import { DonateVolunteersIcon } from './types/donate-volunteers';
 
 interface Props {
@@ -82,21 +74,13 @@ const types = {
   cat: CatIcon,
   dog: DogIcon,
   catDog: CatDogIcon,
-  donateCleaningNeed: DonateCleaningNeedIcon,
   donateCleaning: DonateCleaningIcon,
-  donateClothesNeed: DonateClothesNeedIcon,
   donateClothes: DonateClothesIcon,
-  donateDispensableNeed: DonateDispensableNeedIcon,
   donateDispensable: DonateDispensableIcon,
-  donateFoodNeed: DonateFoodNeedIcon,
   donateFood: DonateFoodIcon,
-  donateHygieneNeed: DonateHygieneNeedIcon,
   donateHygiene: DonateHygieneIcon,
-  donateMedsNeed: DonateMedsNeedIcon,
   donateMeds: DonateMedsIcon,
-  donatePetsNeed: DonatePetsNeedIcon,
   donatePets: DonatePetsIcon,
-  donateVolunteersNeed: DonateVolunteersNeedIcon,
   donateVolunteers: DonateVolunteersIcon,
 } as const;
 
