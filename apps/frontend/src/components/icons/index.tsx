@@ -28,6 +28,14 @@ import { DoctorIcon } from './types/doctor';
 import { CatIcon } from './types/cat';
 import { DogIcon } from './types/dog';
 import { CatDogIcon } from './types/cat-dog';
+import { DonateCleaningIcon } from './types/donate-cleaning';
+import { DonateClothesIcon } from './types/donate-clothes';
+import { DonateDispensableIcon } from './types/donate-dispensable';
+import { DonateFoodIcon } from './types/donate-food';
+import { DonateHygieneIcon } from './types/donate-hygiene';
+import { DonateMedsIcon } from './types/donate-meds';
+import { DonatePetsIcon } from './types/donate-pets';
+import { DonateVolunteersIcon } from './types/donate-volunteers';
 
 interface Props {
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 12 | 20;
@@ -66,6 +74,14 @@ const types = {
   cat: CatIcon,
   dog: DogIcon,
   catDog: CatDogIcon,
+  donateCleaning: DonateCleaningIcon,
+  donateClothes: DonateClothesIcon,
+  donateDispensable: DonateDispensableIcon,
+  donateFood: DonateFoodIcon,
+  donateHygiene: DonateHygieneIcon,
+  donateMeds: DonateMedsIcon,
+  donatePets: DonatePetsIcon,
+  donateVolunteers: DonateVolunteersIcon,
 } as const;
 
 export type IconType = keyof typeof types;
