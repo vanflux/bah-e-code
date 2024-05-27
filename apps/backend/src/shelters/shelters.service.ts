@@ -71,7 +71,7 @@ export class SheltersService {
       needPsico = false,
       needVolunteers = false,
       petFriendly,
-      supplyCategoryId,
+      supplyCategoryId = null,
       page = 1,
       perPage = 5,
     } = body;

@@ -4,16 +4,18 @@ import { Icon, IconType } from '../../components/icons';
 import { Modal } from '../../components/modal';
 import { Button } from '../../components/button';
 import { civilDefenseInfo, healthModalInfo, volunteerCards } from './data';
+import { Link } from 'react-router-dom';
 
 interface Props {
   title: string;
   description: string;
   iconType: IconType;
+  link?: string;
   onClick?: () => void;
 }
 
-function Card({ iconType, title, description, onClick }: Props) {
-  return (
+function Card({ iconType, title, description, link, onClick }: Props) {
+  const content = (
     <button className="flex flex-row gap-4 shadow-system p-3 rounded-xl" onClick={() => onClick && onClick()}>
       <div className="flex flex-col gap-2">
         <Typography semibold>{title}</Typography>
@@ -24,6 +26,10 @@ function Card({ iconType, title, description, onClick }: Props) {
       </div>
     </button>
   );
+
+  if (!link) return content;
+
+  return <Link to={link}>{content}</Link>;
 }
 
 interface ModalWrapperProps extends PropsWithChildren {

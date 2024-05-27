@@ -1,4 +1,5 @@
 import { ModalContentProps } from '.';
+import { routes } from '../../router/routes';
 
 export const volunteerCards = [
   {
@@ -6,18 +7,21 @@ export const volunteerCards = [
     description:
       'Voluntários com disponibilidade para atuar nos turnos, manhã, tarde ou noite (de acordo com a necesidade do abrigo). Entrar em contato diretamente com os abrigos.',
     iconType: 'shelter',
+    link: routes.SHELTERS_NEED_VOLUNTEERS(),
   },
   {
     title: 'Voluntário para pets',
     description:
       'Voluntários com disponibilidade para atuar nos turnos, manhã, tarde ou noite (de acordo com a necesidade do abrigo).  Entrar em contato diretamente com os abrigos.',
     iconType: 'catDog',
+    link: routes.SHELTERS_NEED_VOLUNTEERS_FOR_PET(),
   },
   {
     title: 'Voluntário na área de psicologia',
     description:
       'Voluntários com disponibilidade para prestar acolhimento e atendimento às necessidades relacionadas à saúde mental presencial ou on-line. Entrar em contato diretamente com os abrigos.',
     iconType: 'doctor',
+    link: routes.SHELTERS_NEED_VOLUNTEERS_FOR_PSICO(),
   },
   {
     title: 'Voluntário pela secretária da saúde',
