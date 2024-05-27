@@ -34,7 +34,7 @@ export class SaceService {
     const graphicItem = graphicItems.find((item) => item.name.includes('Cota PCD (cm)'));
     for (const [time, value] of graphicItem?.data ?? []) {
       const date = new Date(time);
-      await this.waterLevelRepo.upsert({ city, date, value }, { conflictWhere: { city, date } });
+      await this.waterLevelRepo.upsert({ city, date, value }, { conflictFields: ['city', 'date'] });
     }
     this.logger.log('Water levels synced');
     return graphicItem;
