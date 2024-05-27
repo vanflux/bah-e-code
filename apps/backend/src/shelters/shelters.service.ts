@@ -19,6 +19,8 @@ export class SheltersService {
   constructor(
     @Inject(Constants.SHELTERS_REPOSITORY)
     private shelterRepo: typeof Shelter,
+    @Inject(Constants.SUPPLY_CATEGORIES_REPOSITORY)
+    private supplyCategoryRepo: typeof SupplyCategory,
     @Inject(Constants.SEQUELIZE)
     private sequelize: Sequelize,
   ) {}
@@ -70,8 +72,8 @@ export class SheltersService {
       search,
       needPsico = false,
       needVolunteers = false,
+      needSupplyCategoryId = null,
       petFriendly,
-      supplyCategoryId = null,
       page = 1,
       perPage = 5,
     } = body;
@@ -79,22 +81,29 @@ export class SheltersService {
     const whereOptions: WhereOptions | undefined = { [Op.and]: and };
     if (search) and.push({ [Op.or]: [{ name: { [Op.iLike]: search } }, { address: { [Op.iLike]: search } }] });
     if (petFriendly != null) and.push({ petFriendly });
-    if (needPsico || needVolunteers || supplyCategoryId) {
+    if (needPsico || needVolunteers || needSupplyCategoryId) {
       const rows = await this.sequelize.query<{ id: string }>(
         `
         select distinct s.shelter_id as id
         from shelters s
         join shelters_supplies ss ON ss.shelter_id = s.shelter_id
         join supplies sss on sss.supply_id = ss.supply_id
-        join supply_categories sc on sc.supply_category_id = sss.supply_category_id 
+        join supply_categories sc on sc.supply_category_id = sss.supply_category_id
         where (
+          ss.priority in (:needing, :urgent) and
           (not(:needPsico) or (sss.name ilike '%psicólog%' or sss.name ilike '%psicolog%')) and
           (not(:needVolunteers) or (sc.name ilike '%especialistas e profissionais%')) and
-          (:supplyCategoryId is null or (sc.supply_category_id = :supplyCategoryId))
+          (:needSupplyCategoryId is null or (sc.supply_category_id = :needSupplyCategoryId))
         )
       `,
         {
-          replacements: { needPsico, needVolunteers, supplyCategoryId },
+          replacements: {
+            needing: SupplyPriority.Needing,
+            urgent: SupplyPriority.Urgent,
+            needPsico,
+            needVolunteers,
+            needSupplyCategoryId,
+          },
           type: QueryTypes.SELECT,
         },
       );
@@ -196,5 +205,16 @@ export class SheltersService {
     });
     if (!shelter) return;
     return shelter;
+  }
+
+  public async getAllSupplyCategories() {
+    const supplyCategories = await this.supplyCategoryRepo.findAll();
+    return supplyCategories;
+  }
+
+  public async getSupplyCategoryById(supplyCategoryId: string) {
+    const supplyCategory = await this.supplyCategoryRepo.findByPk(supplyCategoryId);
+    if (!supplyCategory) return;
+    return supplyCategory;
   }
 }

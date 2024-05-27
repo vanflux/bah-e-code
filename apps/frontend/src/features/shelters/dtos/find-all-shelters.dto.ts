@@ -4,6 +4,7 @@ export interface FindAllSheltersDto {
   search?: string;
   needVolunteers?: boolean;
   needPsico?: boolean;
+  needSupplyCategoryId?: string;
   petFriendly?: boolean;
   page?: number;
   perPage?: number;

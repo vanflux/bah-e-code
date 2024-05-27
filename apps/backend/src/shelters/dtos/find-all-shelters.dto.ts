@@ -20,11 +20,11 @@ export class FindAllSheltersDto {
   needPsico?: boolean;
 
   @ApiProperty({ required: false })
-  @Transform(({ value }) => (value != null ? value === 'true' : undefined))
-  petFriendly?: boolean;
+  needSupplyCategoryId?: string;
 
   @ApiProperty({ required: false })
-  supplyCategoryId?: string;
+  @Transform(({ value }) => (value != null ? value === 'true' : undefined))
+  petFriendly?: boolean;
 
   @ApiProperty({ required: false })
   page?: number;

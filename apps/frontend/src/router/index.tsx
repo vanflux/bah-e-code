@@ -15,6 +15,8 @@ import { VolunteersPage } from '../pages/volunteers';
 import { ShelterListNeedVolunteersPage } from '../pages/shelter-list-need-volunteers';
 import { ShelterListNeedVolunteersForPsicoPage } from '../pages/shelter-list-need-volunteers-for-psico';
 import { ShelterListNeedVolunteersForPetPage } from '../pages/shelter-list-need-volunteers-for-pet';
+import { ShelterListNeedDonationCategoryPage } from '../pages/shelter-list-need-donation-category';
+import { DonationsPage } from '../pages/donations';
 
 export function Router() {
   const router = useMemo(() => {
@@ -27,6 +29,7 @@ export function Router() {
           { path: routes.WARNS(), element: <WarnList /> },
           { path: routes.WARN(':warnId'), element: <WarnPage /> },
           { path: routes.SHELTER(':shelterId'), element: <ShelterDetails /> },
+          { path: routes.SHELTERS_NEED_DONATION_CATEGORY(':supplyCategoryId'), element: <ShelterListNeedDonationCategoryPage /> },
           { path: routes.SHELTERS_NEED_VOLUNTEERS(), element: <ShelterListNeedVolunteersPage /> },
           { path: routes.SHELTERS_NEED_VOLUNTEERS_FOR_PET(), element: <ShelterListNeedVolunteersForPetPage /> },
           { path: routes.SHELTERS_NEED_VOLUNTEERS_FOR_PSICO(), element: <ShelterListNeedVolunteersForPsicoPage /> },
@@ -34,6 +37,7 @@ export function Router() {
           { path: routes.SHELTERS_TO_RECEIVE_DOTATIONS(':shelterId'), element: <ShelterListToReceiveDonationsPage /> },
           { path: routes.MY_ADDRESSES(), element: <AddressesPage /> },
           { path: routes.VOLUNTEERS(), element: <VolunteersPage /> },
+          { path: routes.DONATIONS(), element: <DonationsPage /> },
         ],
       },
       {

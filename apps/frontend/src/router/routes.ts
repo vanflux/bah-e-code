@@ -1,6 +1,7 @@
 export const routes = {
   HOME: () => '/',
   SHELTERS: () => '/abrigos',
+  SHELTERS_NEED_DONATION_CATEGORY: (supplyCategoryId: string) => `/abrigo/precisa-de-doacoes/${supplyCategoryId}`,
   SHELTERS_NEED_VOLUNTEERS: () => `/abrigo/precisa-de-voluntarios`,
   SHELTERS_NEED_VOLUNTEERS_FOR_PET: () => `/abrigo/precisa-de-voluntarios-para-pet`,
   SHELTERS_NEED_VOLUNTEERS_FOR_PSICO: () => `/abrigo/precisa-de-psicologos`,

@@ -8,6 +8,7 @@ import { FindAllSheltersDto } from './dtos/find-all-shelters.dto';
 import { GetSheltersToSendDonationsDto } from './dtos/get-shelters-to-send-donations';
 import { GetSheltersToReceiveDonationsDto } from './dtos/get-shelters-to-receive-donations';
 import { ShelterPointDto } from './dtos/shelter-point.dto';
+import { SupplyCategoryDto } from './dtos/supply-category.dto';
 
 @ApiTags('shelters')
 @Controller('/shelters')
@@ -19,6 +20,23 @@ export class SheltersController {
   @ApiResponse({ type: ShelterPointDto, isArray: true })
   async getShelterPoints() {
     return await this.sheltersService.getSheltersPoints();
+  }
+
+  @Get('/supply-categories')
+  @Version('1')
+  @ApiResponse({ type: SupplyCategoryDto, isArray: true })
+  async getAllSupplyCategories() {
+    const supplyCategories = await this.sheltersService.getAllSupplyCategories();
+    return supplyCategories.map(SupplyCategoryDto.fromModel);
+  }
+
+  @Get('/supply-categories/:id')
+  @Version('1')
+  @ApiResponse({ type: SupplyCategoryDto })
+  async getSupplyCategory(@Param('id') id: string) {
+    const supplyCategory = await this.sheltersService.getSupplyCategoryById(id);
+    if (!supplyCategory) throw new NotFoundException('Supply category not found');
+    return SupplyCategoryDto.fromModel(supplyCategory);
   }
 
   @Get('/:id/shelters-to-send-donations')
@@ -72,7 +90,7 @@ export class SheltersController {
       needPsico: body.needPsico,
       needVolunteers: body.needVolunteers,
       petFriendly: body.petFriendly,
-      supplyCategoryId: body.supplyCategoryId,
+      needSupplyCategoryId: body.needSupplyCategoryId,
       page: body.page,
       perPage: body.perPage,
     });
