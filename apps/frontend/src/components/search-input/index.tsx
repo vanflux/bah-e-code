@@ -1,7 +1,7 @@
 import { Icon } from '../icons';
 
 interface Props {
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   value: string;
 }
 
@@ -9,7 +9,7 @@ export function SearchInput({ value, onChange }: Props) {
   return (
     <div className="shadow-system rounded-full flex items-center pl-4 h-14">
       <input
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange?.(e.target.value)}
         value={value}
         type="text"
         placeholder="Buscar abrigo por nome ou endereço"

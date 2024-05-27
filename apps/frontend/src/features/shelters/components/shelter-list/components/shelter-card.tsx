@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import { Typography } from '../../../components/Typography/index';
-import { Button } from '../../../components/button';
-import { Icon } from '../../../components/icons';
-import { routes } from '../../../router/routes';
-import { ShelterDto } from '../../../features/shelters';
+import { Typography } from '../../../../../components/Typography';
+import { Icon } from '../../../../../components/icons';
+import { ShelterDto } from '../../../dtos';
+import { Button } from '../../../../../components/button';
+import { routes } from '../../../../../router/routes';
 
 export interface ShelterCardProps {
   data: ShelterDto;

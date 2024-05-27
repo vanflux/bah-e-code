@@ -1,13 +1,13 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { FindAllSheltersDto } from '../dtos';
-import { findAllShelters } from '../api';
+import { GetSheltersToReceiveDonationsDto } from '../dtos';
+import { getSheltersToReceiveDonations } from '../api';
 
-export function useShelters(body: FindAllSheltersDto, enabled: boolean) {
+export function useSheltersToReceiveDonation(body: GetSheltersToReceiveDonationsDto, enabled: boolean) {
   const page = body.page ?? 1;
   const perPage = body.perPage ?? 25;
   return useInfiniteQuery({
-    queryFn: ({ pageParam }) => findAllShelters({ ...body, ...pageParam }),
-    queryKey: ['shelters', body],
+    queryFn: ({ pageParam }) => getSheltersToReceiveDonations({ ...body, ...pageParam }),
+    queryKey: ['shelters', 'receive', body],
     initialPageParam: { page, perPage },
     getNextPageParam: (lastPage) => {
       const pages = Math.ceil(lastPage.total / perPage);

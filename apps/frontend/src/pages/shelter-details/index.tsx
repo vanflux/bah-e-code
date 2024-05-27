@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Typography } from '../../components/Typography';
 import { Icon, IconType } from '../../components/icons';
 import { LMap } from '../../components/map';
@@ -8,6 +8,8 @@ import { Loading } from '../../components/loading';
 import { useMemo, useState } from 'react';
 import { ShelterSupplyDto } from '../../features/shelters/dtos/shelter-supply.dto';
 import { SupplyCategoryDto } from '../../features/shelters/dtos/supply-category.dto';
+import { Button } from '../../components/button';
+import { routes } from '../../router/routes';
 
 function isAvaillable(used?: number, total?: number) {
   if (used == null || total == null) return null;
@@ -126,6 +128,10 @@ export function ShelterDetails() {
                     </div>
                   ))}
                 </div>
+
+                <Link to={routes.SHELTERS_TO_RECEIVE_DOTATIONS(shelterId!)}>
+                  <Button>Localizar items em outros abrigos</Button>
+                </Link>
               </>
             )}
 
@@ -149,6 +155,10 @@ export function ShelterDetails() {
                     </div>
                   ))}
                 </div>
+
+                <Link to={routes.SHELTERS_TO_SEND_DOTATIONS(shelterId!)}>
+                  <Button>Localizar abrigos para doar</Button>
+                </Link>
               </>
             )}
           </>

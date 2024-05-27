@@ -2,7 +2,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../utils/cn';
 import { ButtonHTMLAttributes, PropsWithChildren, forwardRef } from 'react';
 
-const variants = cva('rounded p-2 font-medium cursor-pointer', {
+const variants = cva('rounded-xl p-2 font-medium cursor-pointer', {
   variants: {
     color: {
       default: 'bg-[#2582F0] hover:bg-[#2582F0]/90 active:bg-[#2582F0]/80',
