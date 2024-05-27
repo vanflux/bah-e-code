@@ -1,3 +1,5 @@
+import { VolunteerIcon } from '../components/icons/types/volunteer';
+
 export const routes = {
   HOME: () => '/',
   SHELTERS: () => '/abrigos',
@@ -6,6 +8,6 @@ export const routes = {
   WARNS: () => `/alertas`,
   WARN: (warnId: string) => `/alertas/${warnId}`,
   NOTIFICATIONS: () => '/notificacoes',
-  VOLUNTEERS: () => '',
+  VOLUNTEERS: () => `/voluntarios`,
   DONATIONS: () => '/doacoes',
 };

@@ -8,6 +8,7 @@ import { routes } from './routes';
 import { WarnList } from '../pages/warn-list/indes';
 import { WarnPage } from '../pages/warn';
 import { ShelterDetails } from '../pages/shelter-details';
+import { VolunteersPage } from '../pages/volunteers';
 
 export function Router() {
   const router = useMemo(() => {
@@ -20,6 +21,7 @@ export function Router() {
           { path: routes.WARNS(), element: <WarnList /> },
           { path: routes.WARN(':warnId'), element: <WarnPage /> },
           { path: routes.SHELTER(':shelterId'), element: <ShelterDetails /> },
+          { path: routes.VOLUNTEERS(), element: <VolunteersPage /> },
         ],
       },
       {
