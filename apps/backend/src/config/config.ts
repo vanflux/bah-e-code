@@ -21,5 +21,10 @@ export function loadConfig() {
     auth: {
       jwtSecret: process.env.AUTH_JWT_SECRET ?? 'jwtSecret',
     },
+    google: {
+      maps: {
+        apiKey: process.env.GOOGLE_MAPS_API_KEY ?? '-',
+      },
+    },
   } as const;
 }

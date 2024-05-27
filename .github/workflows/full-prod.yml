@@ -63,6 +63,7 @@ jobs:
           echo "DB_POSTGRES_USERNAME=${{ vars.PROD_DB_POSTGRES_USERNAME }}" >> .env
           echo "DB_POSTGRES_PASSWORD=${{ secrets.PROD_DB_POSTGRES_PASSWORD }}" >> .env
           echo "AUTH_JWT_SECRET=${{ secrets.PROD_AUTH_JWT_SECRET }}" >> .env
+          echo "GOOGLE_MAPS_API_KEY=${{ secrets.GOOGLE_MAPS_API_KEY }}" >> .env
 
           echo "POSTGRES_USER=${{ vars.PROD_DB_POSTGRES_USERNAME }}" >> .postgres-db-env
           echo "POSTGRES_PASSWORD=${{ secrets.PROD_DB_POSTGRES_PASSWORD }}" >> .postgres-db-env

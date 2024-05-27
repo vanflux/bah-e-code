@@ -2,9 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import { Logo } from '../../../../components/logo';
 import { IconButton } from '../../../icon-button';
 import { Icon } from '../../../icons';
+import { Typography } from '../../../Typography';
+import { useLogout } from '../../../../features/auth';
 
 export function Header() {
   const navigate = useNavigate();
+  const logout = useLogout();
 
   return (
     <header className="flex bg-primary-700 justify-center w-full border-b-gray-300 border-b p-3">
@@ -15,6 +18,11 @@ export function Header() {
           </IconButton>
         )}
         <Logo className="text-white" />
+        <div onClick={logout}>
+          <Typography className="text-white absolute right-0" size="h5">
+            Sair
+          </Typography>
+        </div>
       </div>
     </header>
   );
