@@ -4,7 +4,6 @@ import { useCurrentLocation } from '../../features/current-location';
 import { ShelterList } from '../../features/shelters/components/shelter-list';
 import LocationSelectInput from '../../components/location-select-input';
 import { SearchInput } from '../../components/search-input';
-import { Typography } from '../../components/Typography';
 
 export function ShelterListPage() {
   const [search, setSearch] = useState('');

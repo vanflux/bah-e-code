@@ -49,8 +49,10 @@ export function ShelterList({ shelters, total, isLoading, children }: Props) {
   return (
     <div className="flex flex-col flex-1">
       <div ref={anchorRef} />
-      <LMap className="min-h-60 h-60 max-h-60" points={points} ref={mapRef} />
-      <div className="flex flex-col flex-1 px-4 py-3 gap-4">
+
+      <LMap className="min-h-60 h-60 max-h-60 shadow-system" points={points} ref={mapRef} />
+
+      <div className="flex flex-col h-[calc(100vh-378px)] overflow-auto px-4 py-3 gap-4">
         {children}
         {isLoading ? (
           <div className="flex flex-col justify-center items-center flex-1">
