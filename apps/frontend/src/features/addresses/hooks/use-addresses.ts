@@ -5,7 +5,6 @@ export function useAddresses(enabled?: boolean) {
   return useQuery({
     queryFn: () => findAllAddresses(),
     queryKey: ['addresses'],
-
     enabled,
   });
 }

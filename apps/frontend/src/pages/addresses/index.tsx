@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { AddressCard } from '../../components/address-card';
 import { Loading } from '../../components/loading';
 import { Modal } from '../../components/modal';
@@ -21,19 +21,15 @@ export const AddressesPage = () => {
   const { data: addresses, isLoading } = useAddresses();
   const [addressData, setAddress] = useState<AddressData>();
   const [filterText, setFilterText] = useState('');
-  const [filteredAddresses, setFilteredAddresses] = useState<AddressDto[] | undefined>(addresses);
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    if (filterText === '' && filteredAddresses?.length === addresses?.length) return;
-    else if (filterText === '') setFilteredAddresses(addresses);
+  const filteredAddresses = useMemo(() => {
+    const filter = filterText.trim().toUpperCase();
+    if (!filterText.trim().length) return addresses;
     else {
-      const newAddress = addresses?.filter(
-        (it) => it.zipCode.toUpperCase().includes(filterText.toUpperCase()) || it.name.toUpperCase().includes(filterText.toUpperCase()),
-      );
-      setFilteredAddresses(newAddress);
+      return addresses?.filter((it) => it.zipCode.toUpperCase().includes(filter) || it.name.toUpperCase().includes(filter));
     }
-  }, [filterText]);
+  }, [addresses, filterText]);
 
   return (
     <div className="flex justify-center">
