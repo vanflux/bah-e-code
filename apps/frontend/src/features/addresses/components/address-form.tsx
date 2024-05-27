@@ -3,6 +3,7 @@ import { TextInput } from '../../../components/text-input';
 import { CitySelectInput } from '../../../components/city-select-input';
 import { useCep } from '../hooks';
 import { Loading } from '../../../components/loading';
+import { SelectInput } from '../../../components/select-input';
 
 export interface AddressFormData {
   name?: string;
@@ -14,26 +15,28 @@ export interface AddressFormData {
   alertsEnabled?: boolean;
   donationsEnabled?: boolean;
   volunteersEnabled?: boolean;
+  hideBooleans?: boolean;
 }
 
 export interface Props {
   value: AddressFormData;
+  hideBooleans?: boolean;
   onChange: (value: AddressFormData) => void;
 }
 
 // I know formikm yup and zod existence, but
 // there is no reason to use no one of these
 // things here, just more complexity added.
-export function AddressForm({ value, onChange }: Props) {
+export function AddressForm({ value, hideBooleans, onChange }: Props) {
   const [name, setName] = useState(value.name);
   const [zipCodeInput, setZipCode] = useState(value.zipCode);
   const [city, setCity] = useState(value.city);
   const [street, setStreet] = useState(value.street);
   const [streetNumber, setStreetNumber] = useState(value.streetNumber);
   const [neighbourhood, setNeighbourhood] = useState(value.neighbourhood);
-  const [alertsEnabled] = useState<boolean>(true);
-  const [donationsEnabled] = useState<boolean>(true);
-  const [volunteersEnabled] = useState<boolean>(true);
+  const [alertsEnabled, setAlertsEnabled] = useState<boolean>(true);
+  const [donationsEnabled, setDonationsEnabled] = useState<boolean>(false);
+  const [volunteersEnabled, setVolunteersEnabled] = useState<boolean>(false);
 
   const [nameTouch, setNameTouch] = useState(false);
   const [zipCodeInputTouch, setZipCodeTouch] = useState(false);
@@ -67,7 +70,7 @@ export function AddressForm({ value, onChange }: Props) {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex flex-col">
-        <p className="font-medium">Nome do local</p>
+        <p className="font-medium">Nome do local *</p>
         <TextInput
           className="w-full"
           value={name ?? ''}
@@ -93,7 +96,7 @@ export function AddressForm({ value, onChange }: Props) {
         />
       </div>
       <div className="flex flex-col">
-        <p className="font-medium">Cidade</p>
+        <p className="font-medium">Cidade *</p>
         <CitySelectInput
           className="w-full"
           value={city ?? ''}
@@ -130,6 +133,46 @@ export function AddressForm({ value, onChange }: Props) {
           />
         </div>
       </div>
+      {!hideBooleans && (
+        <>
+          <div className="flex flex-col">
+            <p className="font-medium">Alertas deste local</p>
+            <SelectInput
+              options={[
+                { label: 'Quero receber notificações', value: 'true' },
+                { label: 'Não quero', value: 'false' },
+              ]}
+              className="w-full"
+              value={String(alertsEnabled)}
+              onChange={(value) => setAlertsEnabled(value === 'true')}
+            />
+          </div>
+          <div className="flex flex-col">
+            <p className="font-medium">Abrigos precisando de doações</p>
+            <SelectInput
+              options={[
+                { label: 'Quero receber notificações', value: 'true' },
+                { label: 'Não quero', value: 'false' },
+              ]}
+              className="w-full"
+              value={String(donationsEnabled)}
+              onChange={(value) => setDonationsEnabled(value === 'true')}
+            />
+          </div>
+          <div className="flex flex-col">
+            <p className="font-medium">Abrigos precisando de voluntários</p>
+            <SelectInput
+              options={[
+                { label: 'Quero receber notificações', value: 'true' },
+                { label: 'Não quero', value: 'false' },
+              ]}
+              className="w-full"
+              value={String(volunteersEnabled)}
+              onChange={(value) => setVolunteersEnabled(value === 'true')}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 }

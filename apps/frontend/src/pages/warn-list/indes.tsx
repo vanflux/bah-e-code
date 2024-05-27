@@ -23,7 +23,7 @@ export const WarnList = () => {
               </div>
             </div>
             {warns.map((item) => (
-              <WarnCard key={item.alertId} id={item.alertId} date={item.createdAt} title={item.title} />
+              <WarnCard key={item.alertId} id={item.alertId} date={item.createdAt} city={item.city} title={item.title} />
             ))}
           </div>
         </>

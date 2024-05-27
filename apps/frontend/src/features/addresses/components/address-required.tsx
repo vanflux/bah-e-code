@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useAddresses, useCreateAddress } from '../hooks';
 import { Modal } from '../../../components/modal';
 import { AddressForm, AddressFormData } from './address-form';
@@ -12,7 +12,7 @@ interface Props {
 
 export function AddressRequired({ children }: Props) {
   const { authenticated } = useAuth();
-  const { data: addresses, isLoading } = useAddresses(authenticated);
+  const { data: addresses, isLoading } = useAddresses();
   const [addressFormData, setAddressFormData] = useState<AddressFormData>({
     name: 'Meu endereço',
   });
@@ -29,11 +29,12 @@ export function AddressRequired({ children }: Props) {
         street: addressFormData.street,
         streetNumber: addressFormData.streetNumber,
         zipCode: addressFormData.zipCode,
+        alertsEnabled: addressFormData.alertsEnabled,
+        donationsEnabled: addressFormData.donationsEnabled,
+        volunteersEnabled: addressFormData.volunteersEnabled,
       });
       toast.success('Endereço cadastrado!');
-      queryClient.invalidateQueries({
-        queryKey: ['addresses'],
-      });
+      queryClient.invalidateQueries();
     } catch {
       toast.error('Falha ao cadastrar o endereço');
     }
@@ -45,7 +46,7 @@ export function AddressRequired({ children }: Props) {
     <>
       <Modal open={authenticated && !isLoading && !addresses?.length} hideClose className="gap-3">
         <h1 className="text-sm font-semibold text-center">Para continuar, insira o seu local</h1>
-        <AddressForm value={addressFormData} onChange={setAddressFormData} />
+        <AddressForm value={addressFormData} hideBooleans onChange={setAddressFormData} />
         <button className="bg-primary-500 disabled:bg-gray-300 py-2 text-white rounded-xl" disabled={!canContinue} onClick={handleContinue}>
           Continuar
         </button>

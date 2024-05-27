@@ -47,7 +47,7 @@ export default function Items({ shelterSupplies }: Props) {
       </div>
 
       {shelterSupplies.map((item) => (
-        <Item shelterSupply={item} />
+        <Item key={item.shelterSupplyId} shelterSupply={item} />
       ))}
     </div>
   );

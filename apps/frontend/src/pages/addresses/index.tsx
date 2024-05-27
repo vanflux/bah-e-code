@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import { AddressCard } from '../../components/address-card';
 import { Loading } from '../../components/loading';
 import { Modal } from '../../components/modal';
@@ -57,9 +57,10 @@ export const AddressesPage = () => {
               </Button>
               <div className="h-[20px]" />
 
-              {filteredAddresses?.map((it) => (
-                <>
+              <div className="flex flex-col gap-3">
+                {filteredAddresses?.map((it) => (
                   <AddressCard
+                    key={it.addressId}
                     id={it.addressId}
                     name={it.name}
                     onClick={() =>
@@ -70,7 +71,7 @@ export const AddressesPage = () => {
                           neighbourhood: it.neighbourhood,
                           street: it.street,
                           zipCode: it.zipCode,
-                          streetNumber: Number.parseInt(it.streetNumber),
+                          streetNumber: it.streetNumber != null ? Number.parseInt(it.streetNumber) : undefined,
                           alertsEnabled: it.alertsEnabled,
                           donationsEnabled: it.donationsEnabled,
                           volunteersEnabled: it.volunteersEnabled,
@@ -80,9 +81,8 @@ export const AddressesPage = () => {
                       })
                     }
                   />
-                  <div className="h-[10px]" />
-                </>
-              ))}
+                ))}
+              </div>
               <Modal open={!!addressData} hideClose className="gap-3">
                 {addressData && (
                   <>
@@ -115,17 +115,13 @@ export const AddressesPage = () => {
                           }).then(() => {
                             setAddress(undefined);
                             toast.success('Endereço cadastrado!');
-                            queryClient.invalidateQueries({
-                              queryKey: ['addresses'],
-                            });
+                            queryClient.invalidateQueries();
                           });
                         } else {
                           await patchAddress(addressData.addressId, addressData.address).then(() => {
                             setAddress(undefined);
                             toast.success('Endereço atualizado!');
-                            queryClient.invalidateQueries({
-                              queryKey: ['addresses'],
-                            });
+                            queryClient.invalidateQueries();
                           });
                         }
                       }}

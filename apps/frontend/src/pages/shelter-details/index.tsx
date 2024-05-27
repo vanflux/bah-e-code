@@ -52,7 +52,12 @@ export function ShelterDetails() {
         items.push({ category, shelterSupplies: [shelterSupply] });
       }
     }
-    return items;
+    return items?.sort((a, b) => {
+      if (a.category.icon && b.category.icon) return a.category.name.localeCompare(b.category.name);
+      if (a.category.icon) return -1;
+      if (b.category.icon) return 1;
+      return a.category.name.localeCompare(b.category.name);
+    });
   };
 
   const needingItems = useMemo(() => getItems([SupplyPriority.Needing, SupplyPriority.Urgent]), [getItems]);

@@ -21,9 +21,12 @@ export const WarnPage = () => {
             <Typography semibold size="h2">
               {warn?.title}
             </Typography>
-            <Typography align="end" size="h6">
-              {`${formatDDMMYYYY(warn.createdAt)} ás ${formatHHMM(warn.createdAt)}`}
-            </Typography>
+            <div className="flex justify-between">
+              <Typography size="h5">{warn.city}</Typography>
+              <Typography align="end" size="h6">
+                {`${formatDDMMYYYY(warn.createdAt)} ás ${formatHHMM(warn.createdAt)}`}
+              </Typography>
+            </div>
             <Typography align="justify">{warn?.body}</Typography>
           </div>
         </div>
