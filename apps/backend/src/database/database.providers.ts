@@ -9,6 +9,7 @@ import { Supply } from './models/supply.model';
 import { SupplyCategory } from './models/supply-category.model';
 import { Alert } from './models/alert.model';
 import { Address } from './models/address.model';
+import { WaterLevel } from './models/water-level.model';
 
 export const databaseProviders: Provider[] = [
   {
@@ -43,7 +44,7 @@ export const databaseProviders: Provider[] = [
         logging: false,
         benchmark: true,
       });
-      sequelize.addModels([User, SupplyCategory, Supply, Shelter, ShelterSupply, Alert, Address]);
+      sequelize.addModels([User, SupplyCategory, Supply, Shelter, ShelterSupply, Alert, Address, WaterLevel]);
       return sequelize;
     },
     inject: [ConfigService],
@@ -75,5 +76,9 @@ export const databaseProviders: Provider[] = [
   {
     provide: Constants.ADDRESSES_REPOSITORY,
     useValue: Address,
+  },
+  {
+    provide: Constants.WATER_LEVELS_REPOSITORY,
+    useValue: WaterLevel,
   },
 ];
