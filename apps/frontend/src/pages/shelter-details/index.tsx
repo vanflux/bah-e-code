@@ -30,7 +30,6 @@ export function ShelterDetails() {
   const { shelterId } = useParams();
   const { data: shelter, isLoading } = useShelter(shelterId);
 
-  console.log(shelter?.shelterSupplies, '<');
   const getCategories = (priorities: SupplyPriority[]) => {
     if (!shelter?.shelterSupplies) return [];
     const categories: SupplyCategoryDto[] = [];
@@ -51,78 +50,93 @@ export function ShelterDetails() {
   return (
     <div className="flex flex-col gap-3">
       <LMap className="min-h-60" />
-      <LocationSelectInput />
+      <div className="flex flex-col gap-2 px-4">
+        <LocationSelectInput />
+        {isLoading || !shelter ? (
+          <Loading />
+        ) : (
+          <>
+            <Typography size="h1" bold>
+              {shelter.name}
+            </Typography>
+            {isAvaillable(shelter.shelteredPeople, shelter.capacity)}
+            <Typography size="h3" bold>
+              Detalhes do abrigo
+            </Typography>
 
-      {isLoading || !shelter ? (
-        <Loading />
-      ) : (
-        <div className="p-4 flex flex-col gap-2">
-          <Typography size="h1" bold>
-            {shelter.name}
-          </Typography>
-          {isAvaillable(shelter.shelteredPeople, shelter.capacity)}
-          <Typography size="h3" bold>
-            Detalhes do abrigo
-          </Typography>
-
-          <div className="p-2 border-b-2 border-[#2582f0]/50">
-            <div className="flex gap-2 items-start">
-              <Icon type="gps" size={3} className="mt-[7px] fill-danger" />
-              <Typography size="h4">{shelter.address}</Typography>
+            <div className="p-2 border-b-2 border-[#2582f0]/50">
+              <div className="flex gap-2 items-start">
+                <Icon type="gps" size={3} className="mt-[7px] fill-danger" />
+                <Typography size="h4">{shelter.address}</Typography>
+              </div>
+              {shelter.petFriendly && (
+                <div className="flex gap-2 items-center">
+                  <Icon type="dogFoot" size={3} className="fill-[#FF00A8]" />
+                  <Typography size="h4">O abrigo aceita animais</Typography>
+                </div>
+              )}
+              {shelter.shelteredPeople != null && shelter.capacity != null && (
+                <div className="flex gap-2 items-center">
+                  <Icon type="people" size={3} className="fill-success" />
+                  <Typography size="h4">
+                    {shelter.shelteredPeople}/{shelter.capacity} pessoas abrigadas
+                  </Typography>
+                </div>
+              )}
+              {shelter.contact && (
+                <div className="flex gap-2 items-center">
+                  <Icon type="contact" size={3} className="fill-[#2582f0]" />
+                  <Typography size="h4">Contato: {shelter.contact}</Typography>
+                </div>
+              )}
             </div>
-            {shelter.petFriendly && (
-              <div className="flex gap-2 items-center">
-                <Icon type="dogFoot" size={3} className="fill-[#FF00A8]" />
-                <Typography size="h4">O abrigo aceita animais</Typography>
-              </div>
-            )}
-            {shelter.shelteredPeople != null && shelter.capacity != null && (
-              <div className="flex gap-2 items-center">
-                <Icon type="people" size={3} className="fill-success" />
-                <Typography size="h4">
-                  {shelter.shelteredPeople}/{shelter.capacity} pessoas abrigadas
+
+            {!!needingCategories.length && (
+              <>
+                <Typography size="h3" bold>
+                  Doações necessárias
                 </Typography>
-              </div>
+
+                <div className="grid grid-cols-3 gap-3">
+                  {needingCategories.map((category) => (
+                    <div
+                      key={category.supplyCategoryId}
+                      className="flex flex-col items-center justify-center h-[120px] gap-1 p-3 shadow-system rounded-xl overflow-hidden"
+                    >
+                      <Icon size={12} className="text-red-500" type={(category.icon as IconType) ?? 'shelter'} />
+                      <Typography size="h5" semibold align="center" className="break-words text-red-500">
+                        {category.name}
+                      </Typography>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
-            {shelter.contact && (
-              <div className="flex gap-2 items-center">
-                <Icon type="contact" size={3} className="fill-[#2582f0]" />
-                <Typography size="h4">Contato: {shelter.contact}</Typography>
-              </div>
+
+            {!!remainingCategories.length && (
+              <>
+                <Typography size="h3" bold>
+                  Sobrando para doações
+                </Typography>
+
+                <div className="grid grid-cols-3 gap-3">
+                  {remainingCategories.map((category) => (
+                    <div
+                      key={category.supplyCategoryId}
+                      className="flex flex-col items-center justify-center h-[120px] gap-1 p-3 shadow-system rounded-xl overflow-hidden"
+                    >
+                      <Icon size={12} className="text-green-500" type={(category.icon as IconType) ?? 'shelter'} />
+                      <Typography semibold align="center" className="break-words text-green-500">
+                        {category.name}
+                      </Typography>
+                    </div>
+                  ))}
+                </div>
+              </>
             )}
-          </div>
-
-          <Typography size="h3" bold>
-            Doações necessárias
-          </Typography>
-
-          <div className="grid grid-cols-3 gap-3">
-            {needingCategories.map((category) => (
-              <div className="flex flex-col items-center justify-center h-[120px] gap-1 p-3 shadow-system rounded-xl overflow-hidden">
-                <Icon size={12} className="text-red-500" type={(category.icon as IconType) ?? 'shelter'} />
-                <Typography size="h5" semibold align="center" className="break-words text-red-500">
-                  {category.name}
-                </Typography>
-              </div>
-            ))}
-          </div>
-
-          <Typography size="h3" bold>
-            Sobrando para doações
-          </Typography>
-
-          <div className="grid grid-cols-3 gap-3">
-            {remainingCategories.map((category) => (
-              <div className="flex flex-col items-center justify-center h-[120px] gap-1 p-3 shadow-system rounded-xl overflow-hidden">
-                <Icon size={12} className="text-green-500" type={(category.icon as IconType) ?? 'shelter'} />
-                <Typography semibold align="center" className="break-words text-green-500">
-                  {category.name}
-                </Typography>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

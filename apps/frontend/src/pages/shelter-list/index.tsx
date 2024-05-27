@@ -56,11 +56,11 @@ export function ShelterListPage() {
   }, [shelters]);
 
   return (
-    <div>
+    <div className="flex flex-col">
       <div ref={anchorRef} />
       <LMap className="min-h-60" points={points} ref={mapRef} />
 
-      <div className="flex flex-col flex-1 p-4 gap-4">
+      <div className="flex flex-col flex-1 px-4 py-3 gap-4">
         <LocationSelectInput />
         <SearchInput value={search} onChange={setSearch} />
 
