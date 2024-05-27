@@ -72,6 +72,7 @@ export class SheltersController {
       needPsico: body.needPsico,
       needVolunteers: body.needVolunteers,
       petFriendly: body.petFriendly,
+      supplyCategoryId: body.supplyCategoryId,
       page: body.page,
       perPage: body.perPage,
     });

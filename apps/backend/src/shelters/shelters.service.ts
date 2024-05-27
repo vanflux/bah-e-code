@@ -64,12 +64,22 @@ export class SheltersService {
   }
 
   public async getShelters(body: FindAllSheltersDto): Promise<Page<Shelter>> {
-    const { latitude, longitude, search, needPsico = false, needVolunteers = false, petFriendly, page = 1, perPage = 5 } = body;
+    const {
+      latitude,
+      longitude,
+      search,
+      needPsico = false,
+      needVolunteers = false,
+      petFriendly,
+      supplyCategoryId,
+      page = 1,
+      perPage = 5,
+    } = body;
     const and: WhereOptions[] = [];
     const whereOptions: WhereOptions | undefined = { [Op.and]: and };
     if (search) and.push({ [Op.or]: [{ name: { [Op.iLike]: search } }, { address: { [Op.iLike]: search } }] });
     if (petFriendly != null) and.push({ petFriendly });
-    if (needPsico || needVolunteers) {
+    if (needPsico || needVolunteers || supplyCategoryId) {
       const rows = await this.sequelize.query<{ id: string }>(
         `
         select distinct s.shelter_id as id
@@ -79,11 +89,12 @@ export class SheltersService {
         join supply_categories sc on sc.supply_category_id = sss.supply_category_id 
         where (
           (not(:needPsico) or (sss.name ilike '%psicólog%' or sss.name ilike '%psicolog%')) and
-          (not(:needVolunteers) or (sc.name ilike '%especialistas e profissionais%'))
+          (not(:needVolunteers) or (sc.name ilike '%especialistas e profissionais%')) and
+          (:supplyCategoryId is null or (sc.supply_category_id = :supplyCategoryId))
         )
       `,
         {
-          replacements: { needPsico, needVolunteers },
+          replacements: { needPsico, needVolunteers, supplyCategoryId },
           type: QueryTypes.SELECT,
         },
       );

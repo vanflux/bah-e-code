@@ -24,6 +24,9 @@ export class FindAllSheltersDto {
   petFriendly?: boolean;
 
   @ApiProperty({ required: false })
+  supplyCategoryId?: string;
+
+  @ApiProperty({ required: false })
   page?: number;
 
   @ApiProperty({ required: false })
