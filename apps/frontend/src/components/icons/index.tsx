@@ -23,6 +23,11 @@ import { InstagramIcon } from './types/instagram';
 import { YouTubeIcon } from './types/youtube';
 import { TwitterIcon } from './types/twitter';
 import { FlickIcon } from './types/flick';
+import { ShieldIcon } from './types/shield';
+import { DoctorIcon } from './types/doctor';
+import { CatIcon } from './types/cat';
+import { DogIcon } from './types/dog';
+import { CatDogIcon } from './types/cat-dog';
 
 interface Props {
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 12 | 20;
@@ -56,6 +61,11 @@ const types = {
   youtube: YouTubeIcon,
   twitter: TwitterIcon,
   flic: FlickIcon,
+  shield: ShieldIcon,
+  doctor: DoctorIcon,
+  cat: CatIcon,
+  dog: DogIcon,
+  catDog: CatDogIcon,
 } as const;
 
 export type IconType = keyof typeof types;

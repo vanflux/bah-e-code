@@ -8,6 +8,6 @@ export const routes = {
   WARNS: () => `/alertas`,
   WARN: (warnId: string) => `/alertas/${warnId}`,
   NOTIFICATIONS: () => '/notificacoes',
-  VOLUNTEERS: () => '',
+  VOLUNTEERS: () => `/voluntarios`,
   DONATIONS: () => '/doacoes',
 };
