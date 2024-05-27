@@ -1,10 +1,13 @@
 import { useParams } from 'react-router-dom';
 import { Typography } from '../../components/Typography';
-import { Icon } from '../../components/icons';
+import { Icon, IconType } from '../../components/icons';
 import { LMap } from '../../components/map';
 import LocationSelectInput from '../../components/location-select-input';
-import { useShelter } from '../../features/shelters';
+import { SupplyPriority, useShelter } from '../../features/shelters';
 import { Loading } from '../../components/loading';
+import { useMemo } from 'react';
+import { ShelterSupplyDto } from '../../features/shelters/dtos/shelter-supply.dto';
+import { SupplyCategoryDto } from '../../features/shelters/dtos/supply-category.dto';
 
 function isAvaillable(used?: number, total?: number) {
   if (used == null || total == null) return null;
@@ -26,6 +29,24 @@ function isAvaillable(used?: number, total?: number) {
 export function ShelterDetails() {
   const { shelterId } = useParams();
   const { data: shelter, isLoading } = useShelter(shelterId);
+
+  console.log(shelter?.shelterSupplies, '<');
+  const getCategories = (priorities: SupplyPriority[]) => {
+    if (!shelter?.shelterSupplies) return [];
+    const categories: SupplyCategoryDto[] = [];
+    for (const shelterSupply of shelter.shelterSupplies) {
+      if (!priorities.includes(shelterSupply.priority)) continue;
+      const category = shelterSupply.supply?.supplyCategory;
+      if (!category) continue;
+      if (categories.find((item) => item.supplyCategoryId === category.supplyCategoryId)) continue;
+      categories.push(category);
+    }
+    return categories;
+  };
+
+  const needingCategories = useMemo(() => getCategories([SupplyPriority.Needing, SupplyPriority.Urgent]), [getCategories]);
+
+  const remainingCategories = useMemo(() => getCategories([SupplyPriority.Remaining]), [getCategories]);
 
   return (
     <div className="flex flex-col gap-3">
@@ -69,6 +90,36 @@ export function ShelterDetails() {
                 <Typography size="h4">Contato: {shelter.contact}</Typography>
               </div>
             )}
+          </div>
+
+          <Typography size="h3" bold>
+            Doações necessárias
+          </Typography>
+
+          <div className="grid grid-cols-3 gap-3">
+            {needingCategories.map((category) => (
+              <div className="flex flex-col items-center justify-center h-[120px] gap-1 p-3 shadow-system rounded-xl overflow-hidden">
+                <Icon size={12} className="text-red-500" type={(category.icon as IconType) ?? 'shelter'} />
+                <Typography size="h5" semibold align="center" className="break-words text-red-500">
+                  {category.name}
+                </Typography>
+              </div>
+            ))}
+          </div>
+
+          <Typography size="h3" bold>
+            Sobrando para doações
+          </Typography>
+
+          <div className="grid grid-cols-3 gap-3">
+            {remainingCategories.map((category) => (
+              <div className="flex flex-col items-center justify-center h-[120px] gap-1 p-3 shadow-system rounded-xl overflow-hidden">
+                <Icon size={12} className="text-green-500" type={(category.icon as IconType) ?? 'shelter'} />
+                <Typography semibold align="center" className="break-words text-green-500">
+                  {category.name}
+                </Typography>
+              </div>
+            ))}
           </div>
         </div>
       )}

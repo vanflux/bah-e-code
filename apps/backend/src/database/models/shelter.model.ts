@@ -64,6 +64,9 @@ export class Shelter extends Model<InferAttributes<Shelter>, Partial<InferAttrib
   @Column({ type: DataType.STRING(255), allowNull: false })
   category!: string;
 
+  @Column({ type: DataType.TEXT, allowNull: true })
+  imageUrl?: string | null;
+
   @CreatedAt
   @Column({ allowNull: false, defaultValue: Sequelize.fn('now') })
   createdAt!: Date;

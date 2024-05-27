@@ -39,7 +39,7 @@ export function ShelterListPage() {
       return;
     }
 
-    mapRef.current.setView([shelter.latitude, shelter.longitude], 16);
+    mapRef.current.setView([shelter.latitude, shelter.longitude], 17, { animate: true });
   }
 
   const points = useMemo(() => {

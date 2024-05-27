@@ -1,3 +1,5 @@
+import { ShelterSupplyDto } from './shelter-supply.dto';
+
 export interface ShelterDto {
   shelterId: string;
   name: string;
@@ -21,4 +23,5 @@ export interface ShelterDto {
   category: string;
   createdAt: string;
   updatedAt: string;
+  shelterSupplies?: ShelterSupplyDto[];
 }

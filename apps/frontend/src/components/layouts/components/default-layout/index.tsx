@@ -9,7 +9,7 @@ interface Props {
 
 export function Layout({ children }: Props) {
   return (
-    <div className="flex w-full max-h-[100svh] flex-1 flex-col items-center">
+    <div className="flex w-full flex-1 flex-col items-center overflow-hidden">
       <ScrollRestoration />
       <Header />
       <div className="flex w-full flex-1 flex-col items-center overflow-auto">

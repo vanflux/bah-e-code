@@ -12,6 +12,9 @@ export class SupplyCategory extends Model<InferAttributes<SupplyCategory>, Parti
   @Column({ type: DataType.STRING(255), allowNull: false })
   name!: string;
 
+  @Column({ type: DataType.STRING(255), allowNull: true })
+  icon?: string | null;
+
   @CreatedAt
   @Column({ allowNull: false, defaultValue: Sequelize.fn('now') })
   createdAt!: Date;

@@ -61,6 +61,9 @@ export class ShelterDto {
   category!: string;
 
   @ApiProperty()
+  imageUrl?: string;
+
+  @ApiProperty()
   createdAt!: string;
 
   @ApiProperty()
@@ -90,6 +93,7 @@ export class ShelterDto {
       longitude: shelter.longitude ? Number(shelter.longitude) : undefined,
       actived: shelter.actived,
       category: shelter.category,
+      imageUrl: shelter.imageUrl ?? undefined,
       createdAt: shelter.createdAt.toISOString(),
       updatedAt: shelter.updatedAt.toISOString(),
       shelterSupplies: shelter.shelterSupplies ? shelter.shelterSupplies.map(ShelterSupplyDto.fromModel) : undefined,

@@ -20,7 +20,7 @@ import { ChevronLeftIcon } from './types/chevron-left';
 import { CenterLocationIcon } from './types/center-location';
 
 interface Props {
-  size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20;
+  size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 12 | 20;
   type: IconType;
   className?: string;
   onClick?: () => void;
@@ -64,6 +64,7 @@ export const Icon = ({ size = 2, type, className, onClick }: Props) => {
     8: 'h-8 min-w-8 min-h-8',
     9: 'h-9 min-w-9 min-h-9',
     10: 'h-10 min-w-10 min-h-10',
+    12: 'h-12 min-w-12 min-h-12',
     20: 'h-20 min-w-20 min-h-20',
   }[size];
   return (

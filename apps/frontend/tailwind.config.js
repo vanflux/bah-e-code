@@ -26,6 +26,9 @@ module.exports = {
       red: {
         500: "#F16767",
       },
+      green: {
+        500: "#74CF72",
+      },
       success: '#74CF72',
       danger: '#F16767',
       white: '#ffffff',

@@ -8,10 +8,14 @@ export class SupplyCategoryDto {
   @ApiProperty()
   name!: string;
 
-  static fromModel(supply: SupplyCategory): SupplyCategoryDto {
+  @ApiProperty()
+  icon?: string;
+
+  static fromModel(supplyCategory: SupplyCategory): SupplyCategoryDto {
     return {
-      supplyCategoryId: supply.supplyCategoryId,
-      name: supply.name,
+      supplyCategoryId: supplyCategory.supplyCategoryId,
+      name: supplyCategory.name,
+      icon: supplyCategory.icon ?? undefined,
     };
   }
 }

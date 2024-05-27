@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { keepPreviousData, useInfiniteQuery } from '@tanstack/react-query';
 import { FindAllSheltersDto } from '../dtos';
 import { findAllShelters } from '../api';
 

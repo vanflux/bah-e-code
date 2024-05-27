@@ -8,7 +8,7 @@ export default function CenterLocationButton() {
 
   function center() {
     if (latitude != null && longitude != null) {
-      map.setView([latitude, longitude], 16);
+      map.setView([latitude, longitude], 17, { animate: true });
     }
   }
 
