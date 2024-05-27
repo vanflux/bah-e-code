@@ -59,7 +59,7 @@ export function ShelterList({ shelters, total, isLoading, children }: Props) {
             <Loading />
           </div>
         ) : !!shelters?.length ? (
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-3">
             {total != null && <Typography semibold>Resultados encontrados ({total}):</Typography>}
             {shelters?.map((shelter) => <ShelterCard key={shelter.shelterId} data={shelter} showMap={handleShowMap}></ShelterCard>)}
           </div>
