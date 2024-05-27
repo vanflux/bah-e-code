@@ -69,6 +69,9 @@ export class SheltersController {
       latitude: body.latitude,
       longitude: body.longitude,
       search: body.search,
+      needPsico: body.needPsico,
+      needVolunteers: body.needVolunteers,
+      petFriendly: body.petFriendly,
       page: body.page,
       perPage: body.perPage,
     });

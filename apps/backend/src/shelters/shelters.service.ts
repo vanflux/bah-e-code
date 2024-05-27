@@ -1,6 +1,6 @@
 import { BadRequestException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { Constants } from 'src/constants';
-import { FindAttributeOptions, Includeable, Order, ProjectionAlias, WhereOptions, col, fn, where } from 'sequelize';
+import { Includeable, QueryTypes, Sequelize, WhereOptions, col, fn, where } from 'sequelize';
 import { Shelter } from 'src/database/models/shelter.model';
 import { FindAllSheltersDto } from './dtos/find-all-shelters.dto';
 import { Op } from 'sequelize';
@@ -19,6 +19,8 @@ export class SheltersService {
   constructor(
     @Inject(Constants.SHELTERS_REPOSITORY)
     private shelterRepo: typeof Shelter,
+    @Inject(Constants.SEQUELIZE)
+    private sequelize: Sequelize,
   ) {}
 
   private getShelterIncludes(): Includeable[] {
@@ -57,17 +59,36 @@ export class SheltersService {
       limit: perPage,
       offset: (page - 1) * perPage,
     });
-    const total = await this.shelterRepo.count({ where: whereOptions, include });
+    const total = await this.shelterRepo.count({ where: whereOptions });
     return { items, total };
   }
 
   public async getShelters(body: FindAllSheltersDto): Promise<Page<Shelter>> {
-    const { latitude, longitude, search, page = 1, perPage = 5 } = body;
-    const whereOptions: WhereOptions | undefined = search
-      ? {
-          [Op.or]: [{ name: { [Op.iLike]: search } }, { address: { [Op.iLike]: search } }],
-        }
-      : undefined;
+    const { latitude, longitude, search, needPsico = false, needVolunteers = false, petFriendly, page = 1, perPage = 5 } = body;
+    const and: WhereOptions[] = [];
+    const whereOptions: WhereOptions | undefined = { [Op.and]: and };
+    if (search) and.push({ [Op.or]: [{ name: { [Op.iLike]: search } }, { address: { [Op.iLike]: search } }] });
+    if (petFriendly != null) and.push({ petFriendly });
+    if (needPsico || needVolunteers) {
+      const rows = await this.sequelize.query<{ id: string }>(
+        `
+        select distinct s.shelter_id as id
+        from shelters s
+        join shelters_supplies ss ON ss.shelter_id = s.shelter_id
+        join supplies sss on sss.supply_id = ss.supply_id
+        join supply_categories sc on sc.supply_category_id = sss.supply_category_id 
+        where (
+          (not(:needPsico) or (sss.name ilike '%psicólog%' or sss.name ilike '%psicolog%')) and
+          (not(:needVolunteers) or (sc.name ilike '%especialistas e profissionais%'))
+        )
+      `,
+        {
+          replacements: { needPsico, needVolunteers },
+          type: QueryTypes.SELECT,
+        },
+      );
+      and.push({ shelterId: { [Op.in]: rows.map((row) => row.id) } });
+    }
     return this.getSheltersBase(latitude, longitude, page, perPage, this.getShelterIncludes(), whereOptions);
   }
 

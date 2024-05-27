@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 
 export class FindAllSheltersDto {
   @ApiProperty({ example: '-30.0623313' })
@@ -9,6 +10,18 @@ export class FindAllSheltersDto {
 
   @ApiProperty({ required: false })
   search?: string;
+
+  @ApiProperty({ required: false })
+  @Transform(({ value }) => (value != null ? value === 'true' : undefined))
+  needVolunteers?: boolean;
+
+  @ApiProperty({ required: false })
+  @Transform(({ value }) => (value != null ? value === 'true' : undefined))
+  needPsico?: boolean;
+
+  @ApiProperty({ required: false })
+  @Transform(({ value }) => (value != null ? value === 'true' : undefined))
+  petFriendly?: boolean;
 
   @ApiProperty({ required: false })
   page?: number;
