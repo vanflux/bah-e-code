@@ -20,3 +20,12 @@ FROM nginx:alpine as web
 COPY apps/frontend/nginx.conf /etc/nginx/nginx.conf
 WORKDIR /usr/share/nginx/html
 COPY --from=web_build /app/apps/frontend/dist .
+
+FROM base as landing_build
+WORKDIR /app/apps/landing
+RUN npm run build
+
+FROM nginx:alpine as landing
+COPY apps/landing/nginx.conf /etc/nginx/nginx.conf
+WORKDIR /usr/share/nginx/html
+COPY --from=landing_build /app/apps/landing/dist .

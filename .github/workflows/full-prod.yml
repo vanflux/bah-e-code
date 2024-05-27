@@ -17,6 +17,8 @@ jobs:
           echo "api_latest=vanflux/bc-api:latest" >> $GITHUB_OUTPUT
           echo "web_specific=vanflux/bc-web:$(date +'%Y-%m-%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
           echo "web_latest=vanflux/bc-web:latest" >> $GITHUB_OUTPUT
+          echo "landing_specific=vanflux/bc-landing:$(date +'%Y-%m-%d')-${{ github.run_number }}" >> $GITHUB_OUTPUT
+          echo "landing_latest=vanflux/bc-landing:latest" >> $GITHUB_OUTPUT
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
@@ -38,6 +40,13 @@ jobs:
           target: web
           tags: ${{ steps.image-tags.outputs.web_specific }},${{ steps.image-tags.outputs.web_latest }}
 
+      - name: Build and push landing
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          target: landing
+          tags: ${{ steps.image-tags.outputs.landing_specific }},${{ steps.image-tags.outputs.landing_latest }}
+
       - name: Pull
         run: |
           echo "${{ secrets.PROD_SSH_KEY }}" | tr -d '\r' > key.pem
@@ -45,6 +54,7 @@ jobs:
           ssh -i key.pem -o "StrictHostKeyChecking no" -p ${{ vars.PROD_SSH_PORT }} ${{ vars.PROD_SSH_USER }}@${{ vars.PROD_SSH_HOST }} <<'ENDSSH'
             docker pull vanflux/bc-api
             docker pull vanflux/bc-web
+            docker pull vanflux/bc-landing
             mkdir -p ~/services/bc-api
           ENDSSH
 

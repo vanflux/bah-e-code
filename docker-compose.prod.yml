@@ -31,6 +31,11 @@ services:
     image: vanflux/bc-web
     restart: always
 
+  landing:
+    container_name: bc-landing
+    image: vanflux/bc-landing
+    restart: always
+
 networks:
   default:
     name: infra-net

@@ -8,6 +8,7 @@
     "start:android": "npm run start:android -w @techrs/frontend",
     "start:web": "npm run start:web -w @techrs/frontend",
     "start:web:remote": "npx cross-env API_BASE_URL=https://api-bc.vanflux.dev/ npm run start:web",
+    "start:landing": "npm start -w @techrs/landing",
     "migration:generate": "npx sequelize-cli migration:generate",
     "migrate": "npm run migrate -w @techrs/backend",
     "migrate:undo": "npm run migrate:undo -w @techrs/backend",
