@@ -12,7 +12,7 @@ import { SosRsModule } from './sos-rs/sos-rs.module';
 import { AlertsModule } from './alerts/alerts.module';
 import { AddressesModule } from './addresses/addresses.module';
 import { SheltersModule } from './shelters/shelters.module';
-import { SaceModule } from './sace/sace.module';
+import { RiversModule } from './rivers/rivers.module';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { SaceModule } from './sace/sace.module';
     StatusModule,
     SheltersModule,
     SosRsModule,
-    SaceModule,
+    RiversModule,
   ].filter(Boolean) as DynamicModule[],
   controllers: [],
   providers: [],

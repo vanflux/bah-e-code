@@ -1,4 +1,4 @@
 export interface MonitoringPoint {
-  id: string;
+  id: number;
   city: string;
 }

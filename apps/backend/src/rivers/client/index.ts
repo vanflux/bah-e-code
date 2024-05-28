@@ -4,6 +4,7 @@ import { crop } from './crop';
 import { unescape } from './unescape';
 import { Isolate } from 'isolated-vm';
 import { GraphicItem } from './models/graphic-item';
+import { Graphic } from './models/graphic';
 
 export class SaceClient {
   private httpClient = axios.create({
@@ -61,16 +62,16 @@ export class SaceClient {
       throw new Error('Bad data at response');
     }
     return result[2].map<MonitoringPoint>((item: any) => {
-      const id = item?.value;
+      const id = Number(item?.value);
       const city = item?.text;
-      if (typeof id !== 'string' || typeof city !== 'string') {
+      if (isNaN(id) || typeof id !== 'number' || typeof city !== 'string') {
         throw new Error('Bad data at response');
       }
       return { id, city };
     });
   }
 
-  async getGraphic(): Promise<GraphicItem[]> {
+  async getGraphic(cityId: number): Promise<Graphic> {
     const form = new FormData();
     form.append('callCount', '1');
     form.append('windowName', '');
@@ -78,7 +79,7 @@ export class SaceClient {
     form.append('c0-methodName', 'obtemGraficoPontoMonitoramento');
     form.append('c0-id', '0');
     form.append('c0-param0', 'string:divGraficoDados');
-    form.append('c0-param1', 'number:34');
+    form.append('c0-param1', `number:${cityId}`);
     form.append('c0-param2', 'number:765');
     form.append('c0-param3', 'number:410');
     form.append('c0-param4', 'boolean:true');
@@ -102,6 +103,11 @@ export class SaceClient {
     const items = options.map((item: any): GraphicItem => {
       return { name: item.name, data: item.data };
     });
-    return items;
+    const plotLines = JSON.parse(crop(html, html.indexOf('"plotLines":') + '"plotLines":'.length, '[', ']'));
+    const alertValueAux = parseInt(plotLines?.find((item: any) => item?.label?.text?.includes('Cota de Alerta'))?.value);
+    const alertValue = isNaN(alertValueAux) ? undefined : alertValueAux;
+    const floodValueAux = parseInt(plotLines?.find((item: any) => item?.label?.text?.includes('Cota de Inunda'))?.value);
+    const floodValue = isNaN(floodValueAux) ? undefined : floodValueAux;
+    return { items, alertValue, floodValue };
   }
 }

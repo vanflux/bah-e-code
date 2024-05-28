@@ -36,6 +36,7 @@ import { DonateHygieneIcon } from './types/donate-hygiene';
 import { DonateMedsIcon } from './types/donate-meds';
 import { DonatePetsIcon } from './types/donate-pets';
 import { DonateVolunteersIcon } from './types/donate-volunteers';
+import { ChartIcon } from './types/chart';
 
 interface Props {
   size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 12 | 20;
@@ -46,6 +47,7 @@ interface Props {
 
 const types = {
   arrowLeft: ArrowLeftIcon,
+  chart: ChartIcon,
   check: CheckIcon,
   chevronDown: ChevronDownIcon,
   chevronLeft: ChevronLeftIcon,

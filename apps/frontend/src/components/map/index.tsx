@@ -46,7 +46,7 @@ export const LMap = React.forwardRef<Map, MapProps>(({ className, points }, ref)
 
   return (
     <div className={cn('flex flex-col flex-1', className)}>
-      <MapContainer className="flex flex-col flex-1 z-0" ref={ref} center={center} zoom={13} scrollWheelZoom={true}>
+      <MapContainer className="flex flex-col flex-1" ref={ref} center={center} zoom={13} scrollWheelZoom={true}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"

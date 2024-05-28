@@ -40,8 +40,8 @@ function ModalWrapper({ children, modalContent }: ModalWrapperProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div onClick={() => setOpen(true)}>
-      <Modal open={open} onOpenChange={setOpen} hideClose>
+    <div onClick={() => !open && setOpen(true)}>
+      <Modal open={open} onOpenChange={setOpen}>
         {modalContent}
       </Modal>
       {children}

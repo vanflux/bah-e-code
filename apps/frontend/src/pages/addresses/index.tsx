@@ -83,7 +83,7 @@ export const AddressesPage = () => {
                   />
                 ))}
               </div>
-              <Modal open={!!addressData} hideClose className="gap-3">
+              <Modal open={!!addressData} onOpenChange={() => setAddress(undefined)} className="gap-3 pt-6">
                 {addressData && (
                   <>
                     <AddressForm

@@ -5,13 +5,18 @@ import { AddressRequired } from '../../features/addresses/components/address-req
 import { AuthRequired } from '../../features/auth';
 import { Typography } from '../../components/Typography';
 import { WarnCarousel } from '../../features/warns';
+import { useState } from 'react';
+import { WaterLevelModal } from '../../features/rivers';
 
 export function HomePage() {
   const navigate = useNavigate();
+  const [waterLevelOpen, setWaterLevelOpen] = useState(false);
+
   return (
     <AddressRequired>
       <AuthRequired>
         <div className="flex flex-col gap-5">
+          <WaterLevelModal open={waterLevelOpen} onOpenChange={setWaterLevelOpen} />
           <div className="flex flex-col px-3 py-1 overflow-hidden">
             <WarnCarousel />
           </div>
@@ -30,6 +35,7 @@ export function HomePage() {
               /> */}
               <IconCard text="Doações" navigate={() => navigate(routes.DONATIONS())} iconType="donation" />
               <IconCard text="Voluntários" navigate={() => navigate(routes.VOLUNTEERS())} iconType="volunteer" />
+              <IconCard text="Nível do rio" navigate={() => setWaterLevelOpen(true)} iconType="chart" />
             </div>
           </div>
         </div>
