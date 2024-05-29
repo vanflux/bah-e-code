@@ -12,10 +12,16 @@ export class RiverDto {
   city!: string;
 
   @ApiProperty()
-  alertValue?: number;
+  severeFloodValue?: number;
 
   @ApiProperty()
   floodValue?: number;
+
+  @ApiProperty()
+  alertValue?: number;
+
+  @ApiProperty()
+  attentionValue?: number;
 
   @ApiProperty()
   createdAt!: string;
@@ -28,8 +34,10 @@ export class RiverDto {
       riverId: river.riverId,
       name: river.name,
       city: river.city,
-      alertValue: river.alertValue ?? undefined,
+      severeFloodValue: river.severeFloodValue ?? undefined,
       floodValue: river.floodValue ?? undefined,
+      alertValue: river.alertValue ?? undefined,
+      attentionValue: river.attentionValue ?? undefined,
       createdAt: river.createdAt.toISOString(),
       updatedAt: river.updatedAt.toISOString(),
     };

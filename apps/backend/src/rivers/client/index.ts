@@ -99,15 +99,39 @@ export class SaceClient {
     }
     console.log('Parsing graphic data');
     const html = unescape(crop(res.data, res.data.indexOf('handleCallback') + 'handleCallback'.length, '(', ')'));
+    const chart0 = unescape(crop(html, html.indexOf('new Highcharts.Chart(') + 'new Highcharts.Chart('.length, '{', '}'));
+    const titleContainer = JSON.parse(unescape(crop(chart0, chart0.indexOf('},"title":{"text":"') + '},"title":'.length, '{', '}')));
+    const title = titleContainer?.text;
     const options = JSON.parse(crop(html, html.indexOf('"container","series":') + '"container","series":'.length, '[', ']'));
     const items = options.map((item: any): GraphicItem => {
-      return { name: item.name, data: item.data };
+      const isWaterLevel = item.name.includes('Cota PCD (cm)') || item.name.includes('Nível (cm)') || item.name.includes('Cota (cm)');
+      const isRain = item.name.includes('Chuva (mm)');
+      const type = isWaterLevel ? 'WATER_LEVEL' : isRain ? 'RAIN' : undefined;
+      return {
+        type,
+        name: item.name,
+        data: item.data,
+      };
     });
-    const plotLines = JSON.parse(crop(html, html.indexOf('"plotLines":') + '"plotLines":'.length, '[', ']'));
-    const alertValueAux = parseInt(plotLines?.find((item: any) => item?.label?.text?.includes('Cota de Alerta'))?.value);
-    const alertValue = isNaN(alertValueAux) ? undefined : alertValueAux;
-    const floodValueAux = parseInt(plotLines?.find((item: any) => item?.label?.text?.includes('Cota de Inunda'))?.value);
-    const floodValue = isNaN(floodValueAux) ? undefined : floodValueAux;
-    return { items, alertValue, floodValue };
+    let severeFloodValue: number | undefined;
+    let floodValue: number | undefined;
+    let alertValue: number | undefined;
+    let attentionValue: number | undefined;
+    if (html.includes('"plotLines":')) {
+      const plotLines = JSON.parse(crop(html, html.indexOf('"plotLines":') + '"plotLines":'.length, '[', ']'));
+      const severeFloodValueAux = parseInt(
+        plotLines?.find((item: any) => {
+          return item?.label?.text?.includes('Cota de Inunda') && item?.label?.text?.includes('Severa');
+        })?.value,
+      );
+      severeFloodValue = isNaN(severeFloodValueAux) ? undefined : severeFloodValueAux;
+      const floodValueAux = parseInt(plotLines?.find((item: any) => item?.label?.text?.includes('Cota de Inunda'))?.value);
+      floodValue = isNaN(floodValueAux) ? undefined : floodValueAux;
+      const alertValueAux = parseInt(plotLines?.find((item: any) => item?.label?.text?.includes('Cota de Alerta'))?.value);
+      alertValue = isNaN(alertValueAux) ? undefined : alertValueAux;
+      const attentionValueAux = parseInt(plotLines?.find((item: any) => item?.label?.text?.includes('Cota de Aten'))?.value);
+      attentionValue = isNaN(attentionValueAux) ? undefined : attentionValueAux;
+    }
+    return { title, items, severeFloodValue, floodValue, alertValue, attentionValue };
   }
 }

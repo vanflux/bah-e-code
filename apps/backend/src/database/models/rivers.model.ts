@@ -14,10 +14,16 @@ export class River extends Model<InferAttributes<River>, Partial<InferAttributes
   city!: string;
 
   @Column({ type: DataType.INTEGER, allowNull: true })
-  alertValue?: number | null;
+  severeFloodValue?: number | null;
 
   @Column({ type: DataType.INTEGER, allowNull: true })
   floodValue?: number | null;
+
+  @Column({ type: DataType.INTEGER, allowNull: true })
+  alertValue?: number | null;
+
+  @Column({ type: DataType.INTEGER, allowNull: true })
+  attentionValue?: number | null;
 
   @CreatedAt
   @Column({ allowNull: false, defaultValue: Sequelize.fn('now') })

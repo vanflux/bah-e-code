@@ -14,4 +14,5 @@ export const routes = {
   NOTIFICATIONS: () => '/notificacoes',
   VOLUNTEERS: () => `/voluntarios`,
   DONATIONS: () => '/doacoes',
+  MAP: () => '/mapa',
 };

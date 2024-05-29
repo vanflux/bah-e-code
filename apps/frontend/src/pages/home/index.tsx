@@ -35,6 +35,7 @@ export function HomePage() {
               /> */}
               <IconCard text="Doações" navigate={() => navigate(routes.DONATIONS())} iconType="donation" />
               <IconCard text="Voluntários" navigate={() => navigate(routes.VOLUNTEERS())} iconType="volunteer" />
+              <IconCard text="Mapa" navigate={() => navigate(routes.MAP())} iconClassName="text-primary-500" iconType="map" />
               <IconCard text="Nível do rio" navigate={() => setWaterLevelOpen(true)} iconType="chart" />
             </div>
           </div>

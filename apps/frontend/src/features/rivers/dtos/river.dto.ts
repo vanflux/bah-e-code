@@ -2,6 +2,8 @@ export interface RiverDto {
   riverId: string;
   city: string;
   name: string;
-  alertValue?: number;
+  severeFloodValue?: number;
   floodValue?: number;
+  alertValue?: number;
+  attentionValue?: number;
 }

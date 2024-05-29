@@ -1,48 +1,19 @@
-import L, { LatLngTuple, Map } from 'leaflet';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import React, { RefObject } from 'react';
 import { cn } from '../../utils/cn';
-import { useCurrentLocation } from '../../features/current-location';
+import { LatLngTuple, Map } from 'leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
+import { ShelterMarker, ShelterPoint } from './components/shelter-marker';
+import { UserMarker } from './components/user-marker';
+import React, { RefObject } from 'react';
 import CenterLocationButton from './components/center-button';
-
-export interface Point {
-  position: LatLngTuple;
-  label: string;
-  id: string;
-  disabled?: boolean;
-}
-
-const shelterIcon = new L.Icon({
-  iconUrl: '/assets/svg/shelter.svg',
-});
-
-const disabledShelterIcon = new L.Icon({
-  iconUrl: '/assets/svg/disabled-shelter.svg',
-});
-
-const userLocationIcon = new L.Icon({
-  iconUrl: '/assets/svg/user.svg',
-});
 
 interface MapProps {
   className?: string;
-  points?: Point[];
+  shelterPoints?: ShelterPoint[];
   ref?: RefObject<Map>;
 }
 
-export const LMap = React.forwardRef<Map, MapProps>(({ className, points }, ref) => {
+export const LMap = React.forwardRef<Map, MapProps>(({ className, shelterPoints }, ref) => {
   const center: LatLngTuple = [-30.069619, -51.166494];
-  const { latitude, longitude } = useCurrentLocation();
-  const userPosition: LatLngTuple | undefined = latitude && longitude ? [latitude, longitude] : undefined;
-
-  function renderPoints() {
-    if (!points?.length) return;
-    return points.map((point) => (
-      <Marker key={point.id} position={point.position} icon={point.disabled ? disabledShelterIcon : shelterIcon}>
-        <Popup>{point.label}</Popup>
-      </Marker>
-    ));
-  }
 
   return (
     <div className={cn('flex flex-col flex-1', className)}>
@@ -54,12 +25,8 @@ export const LMap = React.forwardRef<Map, MapProps>(({ className, points }, ref)
           maxZoom={20}
           zIndex={0}
         />
-        {userPosition && (
-          <Marker position={userPosition} icon={userLocationIcon}>
-            <Popup>Minha posição</Popup>
-          </Marker>
-        )}
-        {renderPoints()}
+        <UserMarker />
+        {shelterPoints?.map((point) => <ShelterMarker key={point.shelterId} {...point} />)}
         <CenterLocationButton />
       </MapContainer>
     </div>

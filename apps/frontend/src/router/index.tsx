@@ -17,6 +17,7 @@ import { ShelterListNeedVolunteersForPsicoPage } from '../pages/shelter-list-nee
 import { ShelterListNeedVolunteersForPetPage } from '../pages/shelter-list-need-volunteers-for-pet';
 import { ShelterListNeedDonationCategoryPage } from '../pages/shelter-list-need-donation-category';
 import { DonationsPage } from '../pages/donations';
+import { MapPage } from '../pages/map';
 
 export function Router() {
   const router = useMemo(() => {
@@ -38,6 +39,7 @@ export function Router() {
           { path: routes.MY_ADDRESSES(), element: <AddressesPage /> },
           { path: routes.VOLUNTEERS(), element: <VolunteersPage /> },
           { path: routes.DONATIONS(), element: <DonationsPage /> },
+          { path: routes.MAP(), element: <MapPage /> },
         ],
       },
       {

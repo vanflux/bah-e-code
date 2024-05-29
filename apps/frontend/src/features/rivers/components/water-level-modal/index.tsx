@@ -1,7 +1,6 @@
 import { Modal } from '../../../../components/modal';
 import { useLastWaterLevels } from '../../hooks';
 import { Line } from 'react-chartjs-2';
-import 'chartjs-adapter-date-fns';
 import {
   Chart as ChartJS,
   LinearScale,
@@ -12,7 +11,6 @@ import {
   TimeScale,
   ChartData,
   TimeSeriesScale,
-  DatasetChartOptions,
 } from 'chart.js';
 import { useEffect, useMemo, useState } from 'react';
 import { SelectInput } from '../../../../components/select-input';
@@ -20,6 +18,7 @@ import { Typography } from '../../../../components/Typography';
 import { Icon } from '../../../../components/icons';
 import { useRivers } from '../../hooks/use-rivers';
 import { formatDDMMYYYY, formatHHMM } from '../../../../utils/date';
+import 'chartjs-adapter-date-fns';
 
 ChartJS.register(TimeScale, TimeSeriesScale, LinearScale, PointElement, LineElement, Tooltip);
 
@@ -67,28 +66,20 @@ export function WaterLevelModal({ open, onOpenChange }: Props) {
       borderWidth: 1.5,
       pointRadius: 0,
     });
-    if (river?.alertValue) {
+    const pushHorizontalLine = (color: string, value: number) =>
       data.datasets.push({
         data: [
-          { x: new Date(waterLevels[0].date), y: river.alertValue / 100 },
-          { x: new Date(waterLevels[waterLevels.length - 1].date), y: river.alertValue / 100 },
+          { x: new Date(waterLevels[0].date), y: value / 100 },
+          { x: new Date(waterLevels[waterLevels.length - 1].date), y: value / 100 },
         ],
-        borderColor: '#f2bc0a',
+        borderColor: color,
         borderWidth: 1.5,
         pointRadius: 0,
       });
-    }
-    if (river?.floodValue) {
-      data.datasets.push({
-        data: [
-          { x: new Date(waterLevels[0].date), y: river.floodValue / 100 },
-          { x: new Date(waterLevels[waterLevels.length - 1].date), y: river.floodValue / 100 },
-        ],
-        borderColor: '#e31e05',
-        borderWidth: 1.5,
-        pointRadius: 0,
-      });
-    }
+    if (river?.severeFloodValue) pushHorizontalLine('#9900ff', river.severeFloodValue);
+    if (river?.floodValue) pushHorizontalLine('#e31e05', river.floodValue);
+    if (river?.alertValue) pushHorizontalLine('#f2720a', river.alertValue);
+    if (river?.attentionValue) pushHorizontalLine('#f2bc0a', river.attentionValue);
     return data;
   }, [waterLevels, river]);
 
@@ -122,6 +113,7 @@ export function WaterLevelModal({ open, onOpenChange }: Props) {
             { label: 'Último dia', value: '1' },
             { label: 'Última semana', value: '7' },
             { label: 'Últimas 2 semanas', value: '14' },
+            { label: 'Últimas 3 semanas', value: '21' },
           ]}
           placeholder="Selecione o período"
         />
@@ -138,12 +130,12 @@ export function WaterLevelModal({ open, onOpenChange }: Props) {
             </Typography>
           </div>
         )}
-        {river?.alertValue != null && (
+        {river?.severeFloodValue != null && (
           <div className="flex items-center gap-2">
             <Typography>
-              <b>Cota de Alerta:</b> {river.alertValue / 100}m
+              <b>Cota de Inundação Severa:</b> {river.severeFloodValue / 100}m
             </Typography>
-            <div className="w-4 h-4 border border-gray-600 bg-[#f2bc0a]" />
+            <div className="w-4 h-4 border border-gray-600 bg-[#9900ff]" />
           </div>
         )}
         {river?.floodValue != null && (
@@ -152,6 +144,22 @@ export function WaterLevelModal({ open, onOpenChange }: Props) {
               <b>Cota de Inundação:</b> {river.floodValue / 100}m
             </Typography>
             <div className="w-4 h-4 border border-gray-600 bg-[#e31e05]" />
+          </div>
+        )}
+        {river?.alertValue != null && (
+          <div className="flex items-center gap-2">
+            <Typography>
+              <b>Cota de Alerta:</b> {river.alertValue / 100}m
+            </Typography>
+            <div className="w-4 h-4 border border-gray-600 bg-[#f2720a]" />
+          </div>
+        )}
+        {river?.attentionValue != null && (
+          <div className="flex items-center gap-2">
+            <Typography>
+              <b>Cota de Atenção:</b> {river.attentionValue / 100}m
+            </Typography>
+            <div className="w-4 h-4 border border-gray-600 bg-[#f2bc0a]" />
           </div>
         )}
         {!!lastWaterLevel?.date && (

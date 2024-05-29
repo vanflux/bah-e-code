@@ -17,7 +17,9 @@ export class RiversService {
   ) {}
 
   async getRivers() {
-    return await this.riverRepo.findAll();
+    return await this.riverRepo.findAll({
+      order: [['name', 'asc']],
+    });
   }
 
   async getLastWaterLevels(riverId: string, days: number) {
@@ -37,23 +39,32 @@ export class RiversService {
     const client = new SaceClient();
     const monitoringPoints = await client.getMonitoringPoints();
     this.logger.log(`Monitoring points: ${JSON.stringify(monitoringPoints)}`);
-    const rivers = await this.riverRepo.findAll();
-    for (const river of rivers) {
-      const point = monitoringPoints.find((point) => point.city === river.city);
-      const cityId = point?.id;
-      if (cityId == null) {
-        this.logger.error(`City id not found, riverId: ${river.riverId}, city: ${river.city}`);
-        continue;
-      }
-      const graphic = await client.getGraphic(cityId);
-      await river.update({
-        alertValue: graphic.alertValue,
-        floodValue: graphic.floodValue,
-      });
-      const graphicItem = graphic.items.find((item) => item.name.includes('Cota PCD (cm)'));
-      for (const [time, value] of graphicItem?.data ?? []) {
-        const date = new Date(time);
-        await this.waterLevelRepo.upsert({ riverId: river.riverId, date, value }, { conflictFields: ['river_id' as any, 'date'] });
+    for (const point of monitoringPoints) {
+      try {
+        const cityId = point.id;
+        const graphic = await client.getGraphic(cityId);
+        const graphicItem = graphic.items.find((item) => item.type === 'WATER_LEVEL');
+        if (graphicItem?.data.length) {
+          const [river] = await this.riverRepo.upsert(
+            {
+              name: graphic.title,
+              city: point.city,
+              severeFloodValue: graphic.severeFloodValue,
+              floodValue: graphic.floodValue,
+              alertValue: graphic.alertValue,
+              attentionValue: graphic.attentionValue,
+            },
+            {
+              conflictFields: ['name'],
+            },
+          );
+          for (const [time, value] of graphicItem.data) {
+            const date = new Date(time);
+            await this.waterLevelRepo.upsert({ riverId: river.riverId, date, value }, { conflictFields: ['river_id' as any, 'date'] });
+          }
+        }
+      } catch {
+        this.logger.error(`Failed to fetch river data of ${point.city} (${point.id})`);
       }
     }
     this.logger.log('Rivers synced');

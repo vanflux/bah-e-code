@@ -15,7 +15,7 @@ export class RiversController {
   @Get('/:id/water-levels/last')
   @Version('1')
   public async getLastWaterLevels(@Param('id') id: string, @Query('days', ParseIntPipe) days: number) {
-    if (days < 1 || days > 14) throw new BadRequestException();
+    if (days < 1 || days > 21) throw new BadRequestException();
     const waterLevels = await this.riversService.getLastWaterLevels(id, days);
     return waterLevels.map(WaterLevelDto.fromModel);
   }

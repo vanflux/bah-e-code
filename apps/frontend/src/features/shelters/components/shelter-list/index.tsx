@@ -1,7 +1,7 @@
-import { ReactNode, useMemo, useRef } from 'react';
+import { ReactNode, useRef } from 'react';
 import { ShelterDto } from '../../dtos';
 import { Map } from 'leaflet';
-import { LMap, Point } from '../../../../components/map';
+import { LMap } from '../../../../components/map';
 import { Loading } from '../../../../components/loading';
 import { ShelterCard } from './components/shelter-card';
 import { Typography } from '../../../../components/Typography';
@@ -37,20 +37,11 @@ export function ShelterList({ shelters, total, isLoading, children }: Props) {
     mapRef.current.setView([shelter.latitude, shelter.longitude], 17, { animate: true });
   }
 
-  const points = useMemo(() => {
-    if (!shelterPoints) return [];
-    return shelterPoints.map<Point>((item) => ({
-      id: item.shelterId,
-      label: item.name,
-      position: [item.latitude, item.longitude],
-    }));
-  }, [shelterPoints]);
-
   return (
     <div className="flex flex-col flex-1">
       <div ref={anchorRef} />
 
-      <LMap className="min-h-60 h-60 max-h-60 shadow-system" points={points} ref={mapRef} />
+      <LMap className="min-h-60 h-60 max-h-60 shadow-system" shelterPoints={shelterPoints} ref={mapRef} />
 
       <div className="flex flex-col h-[calc(100vh-378px)] overflow-auto px-4 py-3 gap-4">
         {children}

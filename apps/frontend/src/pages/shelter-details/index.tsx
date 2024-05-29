@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { Typography } from '../../components/Typography';
 import { Icon, IconType } from '../../components/icons';
-import { LMap, Point } from '../../components/map';
+import { LMap } from '../../components/map';
 import LocationSelectInput from '../../components/location-select-input';
 import { ShelterSuppliesModal, SupplyPriority, useShelter } from '../../features/shelters';
 import { Loading } from '../../components/loading';
@@ -11,28 +11,12 @@ import { SupplyCategoryDto } from '../../features/shelters/dtos/supply-category.
 import { Button } from '../../components/button';
 import { routes } from '../../router/routes';
 import { useShelterPoints } from '../../features/shelters/hooks/use-shelter-points';
-
-function isAvaillable(used?: number, total?: number) {
-  if (used == null || total == null) return null;
-
-  const full = used === total;
-
-  const text = full ? 'Abrigo lotado' : 'Abrigo disponível';
-
-  return (
-    <div className="flex items-center gap-2">
-      <div className={`w-4 h-4 rounded-full ${full ? 'bg-danger' : 'bg-success'}`} />
-      <Typography size="h4" bold color={full ? 'danger' : 'success'}>
-        {text}
-      </Typography>
-    </div>
-  );
-}
+import { ShelterPoint } from '../../components/map/components/shelter-marker';
 
 export function ShelterDetails() {
   const { shelterId } = useParams();
   const { data: shelter, isLoading } = useShelter(shelterId);
-  const { data: shelterPoints } = useShelterPoints();
+  const { data: shelterPointDtos } = useShelterPoints();
   const [showingShelterSupplies, setShowingShelterSupplies] = useState<ShelterSupplyDto[]>();
 
   const getItems = (priorities: SupplyPriority[]) => {
@@ -64,19 +48,22 @@ export function ShelterDetails() {
 
   const remainingItems = useMemo(() => getItems([SupplyPriority.Remaining]), [getItems]);
 
-  const points = useMemo(() => {
-    if (!shelterPoints) return [];
-    return shelterPoints.map<Point>((item) => ({
-      id: item.shelterId,
-      label: item.name,
-      position: [item.latitude, item.longitude],
-      disabled: item.shelterId !== shelterId,
-    }));
-  }, [shelterPoints, shelterId]);
+  const shelterPoints = useMemo(
+    () =>
+      shelterPointDtos?.map<ShelterPoint>((item) => ({
+        ...item,
+        disabled: item.shelterId !== shelterId,
+      })),
+    [shelterPointDtos, shelterId],
+  );
+
+  const hasPeopleData = shelter?.shelteredPeople != null && shelter.capacity != null;
+
+  const isFull = hasPeopleData && shelter.shelteredPeople === shelter.capacity;
 
   return (
     <div className="flex flex-col gap-3">
-      <LMap className="min-h-60" points={points} />
+      <LMap className="min-h-60" shelterPoints={shelterPoints} />
       <div className="flex flex-col gap-2 px-4 pb-3">
         <LocationSelectInput />
 
@@ -93,11 +80,17 @@ export function ShelterDetails() {
             <Typography size="h1" bold>
               {shelter.name}
             </Typography>
-            {isAvaillable(shelter.shelteredPeople, shelter.capacity)}
+            {hasPeopleData != null && (
+              <div className="flex items-center gap-2">
+                <div className={`w-4 h-4 rounded-full ${isFull ? 'bg-danger' : 'bg-success'}`} />
+                <Typography size="h4" bold color={isFull ? 'danger' : 'success'}>
+                  {isFull ? 'Abrigo lotado' : 'Abrigo disponível'}
+                </Typography>
+              </div>
+            )}
             <Typography size="h3" bold>
               Detalhes do abrigo
             </Typography>
-
             <div className="p-2 border-b-2 border-[#2582f0]/50">
               <div className="flex gap-2 items-start">
                 <Icon type="gps" size={3} className="mt-[7px] fill-danger" />
@@ -124,7 +117,6 @@ export function ShelterDetails() {
                 </div>
               )}
             </div>
-
             {!!needingItems.length && (
               <>
                 <Typography size="h3" bold>
@@ -151,7 +143,6 @@ export function ShelterDetails() {
                 </Link>
               </>
             )}
-
             {!!remainingItems.length && (
               <>
                 <Typography size="h3" bold>
